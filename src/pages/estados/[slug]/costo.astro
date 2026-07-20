@@ -1,0 +1,50 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Faq from '../../../components/Faq.astro';
+import Ad from '../../../components/Ad.astro';
+import data from '../../../data/estados.json';
+export function getStaticPaths(){
+  return data.estados.map(e => ({ params:{ slug:e.slug }, props:{ e } }));
+}
+const { e } = Astro.props;
+const esGratis=e.gratuito;
+const costoConf=e.costoConfirmado;
+const faqs=[
+  { q:`¿Cuánto cuesta exactamente en ${e.nombre}?`, a: esGratis ? `En ${e.nombre} el trámite es gratuito en su modalidad en línea.` : costoConf ? `El costo confirmado es de ${e.costoEstimado}${e.costoNota ? '. '+e.costoNota : '.'}` : `El costo estimado ronda ${e.costoEstimado}. Al ser un monto que fija la ley estatal y cambia por año, confírmalo en el portal oficial de ${e.emisor} antes de pagar.` },
+  { q:`¿Dónde se paga?`, a: `Generalmente el pago se realiza mediante una línea de captura que generas en el portal del estado, y pagas en banco autorizado, tiendas de conveniencia o en las cajas recaudadoras de la dependencia. Guarda siempre tu comprobante original.` },
+  { q:`¿Aceptan tarjeta o solo efectivo?`, a: `Depende del estado. Muchas cajas recaudadoras aceptan tarjeta de débito y crédito, pero algunas oficinas solo reciben el comprobante de un pago hecho previamente en banco. Verifica antes de acudir.` },
+  { q:`¿Hay que pagar antes o después de la cita?`, a: `En la mayoría de los estados el pago se hace ANTES y debes presentar el comprobante para iniciar el trámite. No pagues hasta confirmar los requisitos para evitar trámites fallidos.` }
+];
+const schema={ "@context":"https://schema.org","@type":"FAQPage","mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a.replace(/<[^>]+>/g,'')}})) };
+---
+<Base title={`Costo de Antecedentes No Penales en ${e.nombre} 2026: Precio y Dónde Pagar`} description={`Cuánto cuesta la constancia de no antecedentes penales en ${e.nombre}: ${esGratis?'es gratis':'precio '+e.costoEstimado}, formas de pago y dónde realizarlo. Guía actualizada.`} path={`/estados/${e.slug}/costo/`} schema={schema}>
+<div class="hero"><div class="wrap">
+<h1>Costo en {e.nombre}</h1>
+<p class="lead">Cuánto cuesta tu constancia de no antecedentes penales en {e.nombre}, cómo y dónde pagarla, sin sorpresas en ventanilla.</p>
+<a class="btn" href={`/estados/${e.slug}/`}>Volver a la guía de {e.nombre}</a>
+</div></div>
+<main class="wrap">
+<div class="crumbs"><a href="/">Inicio</a> &rsaquo; <a href="/estados/">Estados</a> &rsaquo; <a href={`/estados/${e.slug}/`}>{e.nombre}</a> &rsaquo; Costo</div>
+<div class="card" style="text-align:center">
+<p style="margin:0;color:var(--muted)">Costo en {e.nombre}</p>
+<p style="font-size:2.2rem;font-weight:800;color:var(--verde-osc);margin:.3rem 0">{esGratis ? 'Gratuito' : e.costoEstimado}</p>
+{costoConf && !esGratis && <span class="badge online">Confirmado oficialmente</span>}
+{!costoConf && !esGratis && <span class="badge pres">Estimado</span>}
+{esGratis && <span class="badge gratis">Sin costo</span>}
+</div>
+{!esGratis && !costoConf && <div class="disclaimer"><i class="fa-solid fa-circle-info"></i> Monto estimado. El precio exacto lo fija la Ley de Ingresos de {e.nombre} y cambia cada año. Confírmalo en el <a href={e.portal} rel="nofollow noopener">portal oficial</a> antes de pagar.</div>}
+{e.costoNota && <div class="notice"><strong>Nota sobre el costo:</strong> {e.costoNota}</div>}
+<Ad />
+<h2>Formas de pago en {e.nombre}</h2>
+<ol class="pasos">
+<li>Genera tu línea de captura o formato de pago en el portal de {e.emisor} o de la Secretaría de Finanzas del estado.</li>
+<li>Paga en banco autorizado, tienda de conveniencia (OXXO, Kiosko) o en las cajas recaudadoras de la dependencia.</li>
+<li>Conserva el comprobante original: te lo pedirán para iniciar o completar el trámite.</li>
+</ol>
+<Ad />
+<h2>Preguntas frecuentes sobre el costo</h2>
+<Faq items={faqs} />
+<h2>Siguiente paso</h2>
+<p>Antes de pagar, asegúrate de tener <a href={`/estados/${e.slug}/requisitos/`}>todos los requisitos de {e.nombre}</a>. O vuelve a la <a href={`/estados/${e.slug}/`}>guía completa</a>. ¿Buscas una opción sin costo? Mira la <a href="/federal/">constancia federal gratuita</a>.</p>
+</main>
+</Base>

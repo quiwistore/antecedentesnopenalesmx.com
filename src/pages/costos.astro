@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import Ad from '../components/Ad.astro';
+import Crumbs from '../components/Crumbs.astro';
+import data from '../data/estados.json';
+const estados = [...data.estados].sort((a,b)=>a.nombre.localeCompare(b.nombre));
+const faqs = [];
+const schema = { "@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Cuánto cuesta la carta de antecedentes no penales en México?","acceptedAnswer":{"@type":"Answer","text":"Varía por estado. La federal es gratuita. Entre los estatales, algunos como CDMX y Estado de México son gratuitos en línea; el resto cobra generalmente entre 92 y 300 pesos según su Ley de Ingresos."}}] };
+---
+<Base title="Costo de la Carta de Antecedentes No Penales por Estado 2026 (Comparativo)" description="Cuánto cuesta la constancia de no antecedentes penales en cada estado de México: comparativo de precios estimados, estados gratuitos y modalidad. Actualizado 2026." path="/costos/" schema={schema}>
+<div class="hero"><div class="wrap">
+<h1>Costo por estado de la carta de antecedentes no penales</h1>
+<p class="lead">Comparativo del costo de la constancia en cada entidad. Los montos marcados como estimados deben confirmarse en el portal oficial antes de pagar.</p>
+</div></div>
+<main class="wrap">
+<Crumbs name="Costos" />
+<div class="disclaimer"><i class="fa-solid fa-circle-info"></i> Salvo los montos confirmados, los costos son <strong>estimados</strong> con base en rangos habituales por entidad. El precio exacto lo fija la Ley de Ingresos de cada estado y puede cambiar. Verifica en el portal oficial de tu estado.</div>
+<table>
+<tr><th>Estado</th><th>Costo</th><th>Modalidad</th></tr>
+{estados.map(e => (
+<tr>
+<td><a href={'/estados/' + e.slug + '/'}>{e.nombre}</a></td>
+<td>{e.gratuito ? 'Gratuito' : e.costoEstimado}{e.costoConfirmado ? '' : (e.gratuito ? '' : ' (est.)')}</td>
+<td>{e.modalidad === 'en línea' ? 'En línea' : e.modalidad === 'mixta' ? 'Mixto' : 'Presencial'}</td>
+</tr>
+))}
+<tr class="total"><td>Federal (FGR)</td><td>Gratuito</td><td>En línea</td></tr>
+</table>
+<Ad />
+<p>La <a href="/federal/">constancia federal</a> es siempre gratuita. Si tu estado cobra y buscas alternativas sin costo, revisa cuáles son <a href="/gratis/">gratis</a>.</p>
+</main>
+</Base>

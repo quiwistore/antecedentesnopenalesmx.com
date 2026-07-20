@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import Ad from '../components/Ad.astro';
+import Crumbs from '../components/Crumbs.astro';
+import data from '../data/estados.json';
+const faqs = [
+  { q: '¿Qué documentos necesito para la carta de antecedentes no penales?', a: 'Los requisitos básicos y comunes a casi todos los estados son: identificación oficial vigente (INE, pasaporte o cédula profesional), CURP actualizada, en algunos estados comprobante de domicilio no mayor a 3 meses, y un correo electrónico para el trámite en línea.' },
+  { q: '¿Necesito CURP obligatoriamente?', a: 'Sí, la CURP es prácticamente indispensable en todos los estados y en la constancia federal, porque es el identificador con el que se hace la búsqueda en los registros.' },
+  { q: '¿Puedo tramitarla si soy extranjero?', a: 'Sí, generalmente presentando tu documento migratorio vigente (residencia temporal o permanente) y CURP. Los requisitos exactos para extranjeros varían por estado; confírmalo en el portal oficial.' },
+  { q: '¿Puede tramitarla otra persona por mí?', a: 'En algunos estados se permite mediante carta poder simple y copia de identificaciones, pero en los trámites presenciales con toma de huella o foto (como Jalisco) debe acudir el interesado. Consulta la ficha de tu estado.' }
+];
+const schema = { "@context":"https://schema.org","@type":"FAQPage","mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a}})) };
+---
+<Base title="Requisitos para la Carta de Antecedentes No Penales 2026 (Todos los Estados)" description="Qué documentos necesitas para tramitar la constancia de no antecedentes penales en México: identificación, CURP, comprobante de domicilio y requisitos por estado." path="/requisitos/" schema={schema}>
+<div class="hero"><div class="wrap">
+<h1>Requisitos para la carta de antecedentes no penales</h1>
+<p class="lead">Los documentos que piden son muy parecidos en todo el país. Aquí tienes la lista general y las diferencias que debes revisar según tu estado.</p>
+</div></div>
+<main class="wrap">
+<Crumbs name="Requisitos" />
+<h2>Requisitos generales</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+{data.requisitosComunes.map(r => (<li style="margin:.5rem 0">{r}</li>))}
+</ul></div>
+<p>Esta lista cubre lo que piden la mayoría de las Fiscalías estatales y la <a href="/federal/">constancia federal</a>. Cada estado puede sumar algún documento adicional.</p>
+<Ad />
+<h2>¿Para qué se usa la constancia?</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+{data.usosComunes.map(u => (<li style="margin:.4rem 0">{u}</li>))}
+</ul></div>
+<h2>Revisa los requisitos de tu estado</h2>
+<p>Selecciona tu entidad para ver requisitos, costo y pasos específicos:</p>
+<div class="estado-grid">
+{data.estados.slice(0,12).map(e => (<a href={'/estados/' + e.slug + '/'}><strong>{e.nombre}</strong><span>{e.gratuito?'Gratis':e.costoEstimado}</span></a>))}
+</div>
+<p><a href="/estados/">Ver los 32 estados &rarr;</a></p>
+<Ad />
+<h2>Preguntas frecuentes</h2>
+<Faq items={faqs} />
+</main>
+</Base>

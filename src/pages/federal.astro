@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import Pasos from '../components/Pasos.astro';
+import Ad from '../components/Ad.astro';
+import Crumbs from '../components/Crumbs.astro';
+import data from '../data/estados.json';
+const F = data.federal;
+const pasos = [
+  'Ingresa al portal oficial del trámite en gob.mx (Constancia de Datos Registrales, ficha SEGOB271).',
+  'Regístrate o inicia sesión con tu cuenta llave.gob.mx / usuario del sistema.',
+  'Captura tus datos personales: nombre completo, CURP y datos de contacto.',
+  'Adjunta tu identificación oficial vigente si el sistema lo solicita.',
+  'Genera y descarga tu constancia en PDF con folio y código de verificación oficial.'
+];
+const faqs = [
+  { q: '¿La constancia federal de antecedentes no penales es gratis?', a: 'Sí. La constancia del fuero federal que expide la FGR a través del OADPRS es <strong>gratuita</strong> y se obtiene 100% en línea a través de gob.mx.' },
+  { q: '¿Qué diferencia hay entre la federal y la estatal?', a: 'La <strong>federal</strong> cubre delitos del fuero federal (delincuencia organizada, delitos fiscales, contra la salud, etc.). La <a href="/estados/">estatal</a> cubre delitos del fuero común de tu entidad. Según el trámite te pueden pedir una, otra o ambas.' },
+  { q: '¿Cuánto tarda?', a: 'Suele emitirse de forma inmediata o en un plazo de hasta 3 días hábiles, dependiendo de la validación de tus datos en el sistema.' },
+  { q: '¿Para qué sirve la constancia federal?', a: 'Se usa comúnmente para plazas en el gobierno federal, adopciones internacionales, algunos trámites migratorios (visas) y contratos con dependencias federales.' },
+  { q: '¿Qué necesito para tramitarla?', a: 'Principalmente tu CURP y una identificación oficial vigente. El trámite es en línea, así que necesitas también un correo electrónico y acceso a internet.' }
+];
+const schemaService = { "@context":"https://schema.org","@type":"GovernmentService","name":"Constancia federal de antecedentes no penales","serviceType":"Constancia de datos registrales (fuero federal)","provider":{"@type":"GovernmentOrganization","name":"Fiscalía General de la República (FGR)"},"areaServed":{"@type":"Country","name":"México"} };
+const schemaFaq = { "@context":"https://schema.org","@type":"FAQPage","mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a.replace(/<[^>]+>/g,'')}})) };
+---
+<Base title="Constancia Federal de Antecedentes No Penales 2026: Gratis y En Línea (FGR)" description="Cómo obtener la constancia federal de antecedentes no penales de la FGR: gratis, 100% en línea, requisitos, pasos y enlace oficial a gob.mx." path="/federal/" schema={[schemaService, schemaFaq]}>
+<div class="hero"><div class="wrap">
+<h1>Constancia federal de antecedentes no penales</h1>
+<p class="lead">La constancia del fuero federal que expide la FGR es gratuita y se tramita 100% en línea. Aquí tienes los requisitos, los pasos y el enlace oficial.</p>
+<a class="btn" href={F.portal} rel="nofollow noopener">Ir al trámite oficial</a>
+</div></div>
+<main class="wrap">
+<Crumbs name="Constancia federal" />
+<div class="grid c3">
+<div class="card"><h3>Costo</h3><p style="font-size:1.3rem;font-weight:800;color:var(--verde-osc)">Gratuito</p><span class="badge gratis">Sin costo</span></div>
+<div class="card"><h3>Modalidad</h3><p style="font-size:1.1rem;font-weight:700">100% en línea</p><span class="badge online">Disponible en línea</span></div>
+<div class="card"><h3>La expide</h3><p style="font-size:.98rem;font-weight:600">{F.emisor}</p></div>
+</div>
+<h2>¿Qué cubre la constancia federal?</h2>
+<p>La constancia federal certifica si tienes registros por <strong>{F.cobertura}</strong>. Es distinta de la <a href="/estados/">constancia estatal</a>, que cubre los delitos del fuero común de tu entidad. Según lo que estés tramitando, te pueden pedir una, otra o las dos.</p>
+<Ad />
+<h2>Requisitos</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+{data.requisitosComunes.map(r => (<li style="margin:.4rem 0">{r}</li>))}
+</ul></div>
+<h2>Cómo obtenerla paso a paso</h2>
+<Pasos pasos={pasos} />
+<Ad />
+<h2>Preguntas frecuentes</h2>
+<Faq items={faqs} />
+<h2>¿Necesitas la estatal?</h2>
+<p>Si lo que te piden es la constancia de tu estado, elige tu entidad para ver costo, modalidad y pasos: <a href="/estados/">ver los 32 estados &rarr;</a></p>
+</main>
+</Base>

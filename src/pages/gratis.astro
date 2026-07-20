@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import Ad from '../components/Ad.astro';
+import Crumbs from '../components/Crumbs.astro';
+import data from '../data/estados.json';
+const gratis = data.estados.filter(e => e.gratuito);
+const faqs = [
+  { q: '¿Cómo saco la carta de antecedentes no penales gratis?', a: 'La vía gratuita más directa es la <a href="/federal/">constancia federal</a> de la FGR, que no tiene costo y es en línea. A nivel estatal, ' + gratis.length + ' entidades la ofrecen sin costo en su modalidad en línea: ' + gratis.map(e=>e.nombre).join(' y ') + '.' },
+  { q: '¿Es de verdad gratis o hay costos ocultos?', a: 'En los trámites oficiales gratuitos no hay costo. Ten cuidado con sitios intermediarios que cobran por "gestionar" algo que puedes hacer sin costo directamente en el portal oficial. Nosotros solo te enlazamos a los portales oficiales.' },
+  { q: '¿Por qué en mi estado sí cobran?', a: 'Cada estado fija sus derechos según su Ley de Ingresos. Algunos subsidian el trámite en línea y otros cobran una cuota. Consulta la ficha de tu estado para ver el costo y si hay opción gratuita.' }
+];
+const schema = { "@context":"https://schema.org","@type":"FAQPage","mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a.replace(/<[^>]+>/g,'')}})) };
+---
+<Base title="Carta de Antecedentes No Penales Gratis 2026: Federal y Estados Sin Costo" description="Cómo sacar la constancia de no antecedentes penales gratis en México: la federal de la FGR y los estados que la ofrecen sin costo en línea. Guía 2026." path="/gratis/" schema={schema}>
+<div class="hero"><div class="wrap">
+<h1>Carta de antecedentes no penales gratis</h1>
+<p class="lead">Sí se puede obtener sin costo. Te mostramos la vía federal gratuita y los estados que no cobran por la constancia en su modalidad en línea.</p>
+<a class="btn" href="/federal/">Constancia federal gratis</a>
+</div></div>
+<main class="wrap">
+<Crumbs name="Gratis" />
+<div class="notice verde"><strong>Vía más rápida sin costo:</strong> la <a href="/federal/">constancia federal</a> de la FGR es gratuita y 100% en línea. Cubre delitos federales; confirma si es la que te piden.</div>
+<h2>Estados que la ofrecen gratis</h2>
+<div class="estado-grid">
+{gratis.map(e => (<a href={'/estados/' + e.slug + '/'}><strong>{e.nombre}</strong><span>Gratis · en línea</span></a>))}
+</div>
+<Ad />
+<div class="notice"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Cuidado con intermediarios:</strong> algunos sitios cobran por gestionar un trámite que es gratuito u ofrecido a bajo costo directamente por el estado. Realiza siempre el trámite en el portal oficial.</div>
+<h2>¿En tu estado cobran?</h2>
+<p>Si tu estado no está en la lista de gratuitos, revisa su costo exacto y modalidad en su ficha: <a href="/estados/">ver los 32 estados &rarr;</a> o consulta el <a href="/costos/">comparativo de costos</a>.</p>
+<Ad />
+<h2>Preguntas frecuentes</h2>
+<Faq items={faqs} />
+</main>
+</Base>

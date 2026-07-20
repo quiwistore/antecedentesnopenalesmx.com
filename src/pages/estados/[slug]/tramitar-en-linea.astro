@@ -1,0 +1,60 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Faq from '../../../components/Faq.astro';
+import Ad from '../../../components/Ad.astro';
+import data from '../../../data/estados.json';
+export function getStaticPaths(){
+  // Solo estados con modalidad en línea o mixta
+  return data.estados.filter(e => e.enLinea).map(e => ({ params:{ slug:e.slug }, props:{ e } }));
+}
+const { e } = Astro.props;
+const esGratis=e.gratuito;
+const costoConf=e.costoConfirmado;
+const modLabel = e.modalidad === 'en línea' ? 'totalmente en línea' : 'en línea (con un paso presencial en algunos casos)';
+const faqs=[
+  { q:`¿El trámite en línea en ${e.nombre} es oficial?`, a:`Sí. El portal al que te enlazamos es el oficial de ${e.emisor}. Nosotros no tramitamos ni cobramos: solo te preparamos para que el trámite oficial te salga bien a la primera.` },
+  { q:`¿Cuánto tarda en línea?`, a: esGratis ? `Suele ser inmediato o de pocos minutos una vez que completas tus datos.` : `Depende del estado, pero al ser en línea suele resolverse el mismo día tras validar tu pago y tus datos.` },
+  { q:`¿Necesito pagar antes de entrar al portal?`, a: esGratis ? `No, en ${e.nombre} la modalidad en línea es gratuita.` : `En la mayoría de los casos generas la línea de captura dentro del portal y pagas en banco o en línea. Ten tu método de pago a la mano.` },
+  { q:`¿Cuidado con los intermediarios?`, a:`Sí. Hay sitios que cobran por "gestionar" un trámite que puedes hacer tú directamente en el portal oficial. No pagues de más: el enlace que te damos es el oficial y gratuito de acceder.` }
+];
+const schema={ "@context":"https://schema.org","@type":"FAQPage","mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a}})) };
+---
+<Base title={`Tramitar Antecedentes No Penales en Línea en ${e.nombre}: Guía Paso a Paso`} description={`Cómo tramitar tu constancia de no antecedentes penales en línea en ${e.nombre}: qué tener listo antes de entrar al portal oficial, costo y qué esperar. Guía práctica.`} path={`/estados/${e.slug}/tramitar-en-linea/`} schema={schema}>
+<div class="hero"><div class="wrap">
+<h1>Tramitar en línea en {e.nombre}</h1>
+<p class="lead">Antes de entrar al portal oficial de {e.nombre}, revisa esta guía rápida para que el trámite te salga bien a la primera y no pierdas tiempo.</p>
+</div></div>
+<main class="wrap">
+<div class="crumbs"><a href="/">Inicio</a> &rsaquo; <a href="/estados/">Estados</a> &rsaquo; <a href={`/estados/${e.slug}/`}>{e.nombre}</a> &rsaquo; Tramitar en línea</div>
+
+<h2>Antes de entrar al portal, ten esto listo</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+{data.requisitosComunes.map(r => (<li style="margin:.4rem 0">{r}</li>))}
+</ul></div>
+<p>Tenerlos digitalizados (foto o PDF legible) evita que el trámite se caiga a la mitad. <a href={`/estados/${e.slug}/requisitos/`}>Ver requisitos completos &rarr;</a></p>
+
+<Ad />
+
+<h2>Qué vas a hacer en el portal</h2>
+<ol class="pasos">
+<li>Crear una cuenta o iniciar sesión en el portal oficial de {e.emisor}.</li>
+<li>Capturar tus datos personales (nombre, CURP, domicilio) y adjuntar tu identificación.</li>
+{!esGratis && <li>Generar la línea de captura y pagar los derechos ({e.costoEstimado}) en banco, tienda o en línea.</li>}
+<li>Descargar tu constancia en PDF con su folio o código QR de validación oficial.</li>
+</ol>
+
+<div class="notice"><i class="fa-solid fa-shield-halved"></i> <strong>Cuidado con intermediarios:</strong> hay páginas que cobran por gestionar este trámite. El enlace de abajo es el <strong>portal oficial</strong> de {e.nombre}; no necesitas pagar a terceros.</div>
+
+<div class="cta-final">
+<p><strong>¿Listo? Ya con tus documentos a la mano, entra al portal oficial:</strong></p>
+<a class="btn btn-lg" href={e.portal} rel="nofollow noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ir al portal oficial de {e.nombre}</a>
+<p class="cta-nota">Se abre el sitio oficial de {e.emisor}. Nosotros no tramitamos ni cobramos.</p>
+</div>
+
+<Ad />
+
+<h2>Preguntas frecuentes</h2>
+<Faq items={faqs} />
+<p style="margin-top:1.5rem"><a href={`/estados/${e.slug}/`}>&larr; Volver a la guía completa de {e.nombre}</a></p>
+</main>
+</Base>

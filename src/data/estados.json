@@ -1,0 +1,707 @@
+{
+ "asAt": "2026",
+ "federal": {
+  "emisor": "Fiscalía General de la República (FGR) — a través del OADPRS",
+  "costo": "gratuito en línea",
+  "modalidad": "100% en línea",
+  "portal": "https://www.gob.mx/tramites/ficha/constancia-de-datos-registrales/SEGOB271",
+  "tiempo": "inmediato a 3 días hábiles",
+  "cobertura": "delitos del fuero federal (narcotráfico, delincuencia organizada, delitos fiscales, etc.)"
+ },
+ "requisitosComunes": [
+  "Identificación oficial vigente (INE, pasaporte o cédula profesional)",
+  "CURP actualizada",
+  "Comprobante de domicilio no mayor a 3 meses (en algunos estados)",
+  "Correo electrónico"
+ ],
+ "usosComunes": [
+  "Empleo en el sector privado",
+  "Trámites migratorios (visas EE.UU., Canadá)",
+  "Adopciones",
+  "Licencias profesionales o de portación",
+  "Contratos con dependencias de gobierno"
+ ],
+ "estados": [
+  {
+   "slug": "aguascalientes",
+   "nombre": "Aguascalientes",
+   "emisor": "Supremo Tribunal de Justicia (Poder Judicial del Estado)",
+   "modalidad": "presencial",
+   "costoEstimado": "$150–$215 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://www.aguascalientes.gob.mx/",
+   "capital": "Aguascalientes",
+   "ciudades": [
+    "Aguascalientes"
+   ],
+   "sede": {
+    "nombre": "Poder Judicial del Estado (Palacio de Justicia)",
+    "direccion": "Av. Héroe de Nacozari esq. Av. Adolfo López Mateos Ote. s/n, Col. San Luis, C.P. 20250, Aguascalientes",
+    "horario": "Lun-Vie",
+    "proceso": "Pre-registro/cita en línea; pago exclusivo en BBVA (cta. del Supremo Tribunal); presencial en Palacio de Justicia; entrega ~20 min",
+    "vigencia": "Documento reciente (RH suele pedir <30 días)",
+    "fuente": "Poder Judicial de Aguascalientes"
+   }
+  },
+  {
+   "slug": "baja-california",
+   "nombre": "Baja California",
+   "emisor": "Fiscalía General del Estado de Baja California",
+   "modalidad": "mixta",
+   "costoEstimado": "$150–$250 MXN",
+   "enLinea": true,
+   "gratuito": false,
+   "portal": "https://www.fgebc.gob.mx/",
+   "capital": "Mexicali",
+   "ciudades": [
+    "Tijuana",
+    "Mexicali",
+    "Ensenada"
+   ]
+  },
+  {
+   "slug": "baja-california-sur",
+   "nombre": "Baja California Sur",
+   "emisor": "Dirección General del Sistema Penitenciario Estatal (SSP)",
+   "modalidad": "presencial",
+   "costoEstimado": "Consultar Ley de Ingresos de BCS vigente",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://www.fgebcs.gob.mx/",
+   "capital": "La Paz",
+   "ciudades": [
+    "La Paz"
+   ],
+   "sede": {
+    "nombre": "Dirección General del Sistema Penitenciario Estatal (SSP BCS)",
+    "direccion": "Blvd. Luis Donaldo Colosio e/ Álvarez Rico y México, La Paz",
+    "horario": "Lun-Vie",
+    "proceso": "Presencial; consulta a la base estatal de la Dirección de Prevención Social; entrega en ~20 min",
+    "vigencia": "Consultar",
+    "fuente": "tramites.bcs.gob.mx"
+   }
+  },
+  {
+   "slug": "campeche",
+   "nombre": "Campeche",
+   "emisor": "Fiscalía General del Estado de Campeche",
+   "modalidad": "presencial",
+   "costoEstimado": "Consultar Ley de Ingresos de Campeche vigente",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://fiscalia.campeche.gob.mx/",
+   "capital": "San Francisco de Campeche",
+   "ciudades": [
+    "San Francisco de Campeche"
+   ],
+   "sede": {
+    "nombre": "FGE Campeche",
+    "direccion": "Verificar sede en el portal oficial de la Fiscalía General del Estado de Campeche",
+    "horario": "Lun-Vie (verificar)",
+    "proceso": "Verificar modalidad y pasos en fiscalia.campeche.gob.mx",
+    "vigencia": "Consultar",
+    "fuente": "pendiente verificación oficial",
+    "porVerificar": true
+   }
+  },
+  {
+   "slug": "chiapas",
+   "nombre": "Chiapas",
+   "emisor": "Poder Judicial del Estado de Chiapas",
+   "modalidad": "presencial",
+   "costoEstimado": "Consultar Ley de Ingresos vigente",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://www.fge.chiapas.gob.mx/",
+   "capital": "Tuxtla Gutiérrez",
+   "ciudades": [
+    "Tuxtla Gutiérrez"
+   ],
+   "sede": {
+    "nombre": "Módulos del Poder Judicial del Estado",
+    "direccion": "Palacio de Justicia, Libramiento Norte No. 2100, Fracc. El Bosque, Tuxtla Gutiérrez; módulos en Tapachula, San Cristóbal de Las Casas, Tonalá, Comitán, Palenque y Pichucalco",
+    "horario": "Lun-Jue 8:00-16:00, Vie 8:00-13:00",
+    "proceso": "Presencial sin cita obligatoria; pago de derechos en módulos Exprés/Quioscos; verificación en línea disponible",
+    "vigencia": "Consultar",
+    "fuente": "poderjudicialchiapas.gob.mx"
+   }
+  },
+  {
+   "slug": "chihuahua",
+   "nombre": "Chihuahua",
+   "emisor": "Fiscalía General del Estado de Chihuahua",
+   "modalidad": "mixta",
+   "costoEstimado": "$150–$300 MXN",
+   "enLinea": true,
+   "gratuito": false,
+   "portal": "https://fiscalia.chihuahua.gob.mx/",
+   "capital": "Chihuahua",
+   "ciudades": [
+    "Ciudad Juárez",
+    "Chihuahua"
+   ]
+  },
+  {
+   "slug": "ciudad-de-mexico",
+   "nombre": "Ciudad de México",
+   "emisor": "Fiscalía General de Justicia de la CDMX",
+   "modalidad": "en línea",
+   "costoEstimado": "gratuito o costo mínimo según uso",
+   "enLinea": true,
+   "gratuito": true,
+   "portal": "https://www.fgjcdmx.gob.mx/",
+   "capital": "Ciudad de México",
+   "ciudades": [
+    "Ciudad de México"
+   ]
+  },
+  {
+   "slug": "coahuila",
+   "nombre": "Coahuila",
+   "emisor": "Fiscalía General del Estado de Coahuila",
+   "modalidad": "presencial",
+   "costoEstimado": "$100–$200 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://www.fgecoahuila.gob.mx/",
+   "capital": "Saltillo",
+   "ciudades": [
+    "Torreón",
+    "Saltillo",
+    "Monclova"
+   ],
+   "sede": {
+    "nombre": "En línea (SICNAP) o módulos SSP",
+    "direccion": "Trámite en línea; módulos en Saltillo (Periférico Luis Echeverría 5402-1, Centro Metropolitano), Torreón, Piedras Negras, Monclova, Acuña, Sabinas",
+    "horario": "Lun-Vie",
+    "proceso": "En línea vía sicnap.tramitescoahuila.gob.mx con firma electrónica y pago en Pagafácil; llega por correo en ~48h",
+    "vigencia": "Consultar",
+    "fuente": null
+   }
+  },
+  {
+   "slug": "colima",
+   "nombre": "Colima",
+   "emisor": "Dirección General del Sistema Estatal Penitenciario (SSPC)",
+   "modalidad": "presencial",
+   "costoEstimado": "Fijado por UMAs (Ley de Hacienda de Colima Art. 62 Bis); verificar vigente",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://fgecolima.gob.mx/",
+   "capital": "Colima",
+   "ciudades": [
+    "Colima"
+   ],
+   "sede": {
+    "nombre": "Dirección General del Sistema Estatal Penitenciario (SSPC)",
+    "direccion": "Av. Gonzalo de Sandoval #2000, Col. La Estancia, Colima, C.P. 28048",
+    "horario": "Lun-Vie 9:00-14:00",
+    "proceso": "Presencial en la Dirección General del Sistema Estatal Penitenciario; pago en Kiosko, Telecom o ventanilla (efectivo/tarjeta)",
+    "vigencia": "30 días (1 mes)",
+    "fuente": "col.gob.mx"
+   }
+  },
+  {
+   "slug": "durango",
+   "nombre": "Durango",
+   "emisor": "Fiscalía General del Estado de Durango",
+   "modalidad": "presencial",
+   "costoEstimado": "Consultar (aprox. $100 MXN histórico, verificar Ley de Ingresos vigente)",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://fiscalia.durango.gob.mx/",
+   "capital": "Victoria de Durango",
+   "ciudades": [
+    "Victoria de Durango"
+   ],
+   "sede": {
+    "nombre": "Centro de Reinserción Social / módulos FGED",
+    "direccion": "Carretera Durango-Torreón Km 6.5, Fracc. Ciudad Industrial, Durango capital; módulos en Gómez Palacio, El Salto y Santiago Papasquiaro",
+    "horario": "Lun-Vie 8:30-15:00",
+    "proceso": "Pago anticipado vía plataforma Durango Digital (durangodigital.gob.mx) y presentación en módulo FGED; se toma foto y huella; entrega en 20-40 min",
+    "vigencia": "Consultar",
+    "fuente": "durango.gob.mx"
+   }
+  },
+  {
+   "slug": "estado-de-mexico",
+   "nombre": "Estado de México",
+   "emisor": "Fiscalía General de Justicia del Estado de México",
+   "modalidad": "en línea",
+   "costoEstimado": "gratuito en línea",
+   "enLinea": true,
+   "gratuito": true,
+   "portal": "https://fiscaliaedomex.gob.mx/",
+   "capital": "Toluca",
+   "ciudades": [
+    "Ecatepec",
+    "Nezahualcóyotl",
+    "Naucalpan",
+    "Toluca",
+    "Tlalnepantla"
+   ],
+   "alias": "edomex"
+  },
+  {
+   "slug": "guanajuato",
+   "nombre": "Guanajuato",
+   "emisor": "Fiscalía General del Estado de Guanajuato",
+   "modalidad": "mixta",
+   "costoEstimado": "$100–$250 MXN",
+   "enLinea": true,
+   "gratuito": false,
+   "portal": "https://portal.fgeguanajuato.gob.mx/",
+   "capital": "Guanajuato",
+   "ciudades": [
+    "León",
+    "Irapuato",
+    "Celaya",
+    "Guanajuato"
+   ]
+  },
+  {
+   "slug": "guerrero",
+   "nombre": "Guerrero",
+   "emisor": "Fiscalía General del Estado de Guerrero",
+   "modalidad": "presencial",
+   "costoEstimado": "$260.90 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://fiscaliaguerrero.gob.mx/",
+   "capital": "Chilpancingo",
+   "ciudades": [
+    "Acapulco",
+    "Chilpancingo"
+   ],
+   "sede": {
+    "nombre": "Archivo Criminalístico, FGE Guerrero",
+    "direccion": "Calle Zafiro 16, Col. Paludismo, C.P. 39096, Chilpancingo de los Bravo; delegaciones en Acapulco, Iguala, Zihuatanejo, Tlapa y Coyuca de Catalán",
+    "horario": "Lun-Vie 9:00-14:00",
+    "proceso": "Cita previa en portal FGE (siaac.fiscaliaguerrero.gob.mx); pago en BANAMEX antes de la cita; presentarse con camisa/blusa blanca; se toma huella",
+    "vigencia": "Sin vigencia establecida (confirmar con quien la solicita)",
+    "fuente": "portal oficial fiscaliaguerrero.gob.mx"
+   },
+   "costoConfirmado": true
+  },
+  {
+   "slug": "hidalgo",
+   "nombre": "Hidalgo",
+   "emisor": "Procuraduría General de Justicia del Estado de Hidalgo",
+   "modalidad": "mixta",
+   "costoEstimado": "$100–$200 MXN",
+   "enLinea": true,
+   "gratuito": false,
+   "portal": "https://www.pgjhidalgo.gob.mx/",
+   "capital": "Pachuca",
+   "ciudades": [
+    "Pachuca"
+   ]
+  },
+  {
+   "slug": "jalisco",
+   "nombre": "Jalisco",
+   "emisor": "Instituto Jalisciense de Ciencias Forenses (IJCF)",
+   "modalidad": "presencial",
+   "costoEstimado": "$92 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://micrositio.seia.jalisco.gob.mx/tramite_constancia",
+   "capital": "Guadalajara",
+   "ciudades": [
+    "Guadalajara",
+    "Zapopan",
+    "Tlaquepaque",
+    "El Salto"
+   ],
+   "costoConfirmado": true,
+   "notaEspecial": "El trámite es estrictamente presencial en módulos del IJCF porque incluye toma de fotografía y huella digital en el momento. No requiere cita previa. Horario general lunes a viernes 9:00 a 15:00 hrs.",
+   "sede": {
+    "nombre": "Módulos del IJCF",
+    "direccion": "Módulos del Instituto Jalisciense de Ciencias Forenses, Guadalajara",
+    "horario": "Lun-Vie 9:00-15:00",
+    "proceso": "Presencial sin cita previa; se toma foto y huella en el momento",
+    "vigencia": "Consultar en el módulo",
+    "fuente": null
+   }
+  },
+  {
+   "slug": "michoacan",
+   "nombre": "Michoacán",
+   "emisor": "Fiscalía General del Estado de Michoacán",
+   "modalidad": "presencial",
+   "costoEstimado": "$244 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://fiscaliamichoacan.gob.mx/",
+   "capital": "Morelia",
+   "ciudades": [
+    "Morelia",
+    "Uruapan"
+   ],
+   "sede": {
+    "nombre": "Oficinas recaudadoras FGE Michoacán",
+    "direccion": "Módulos regionales de la Fiscalía en Morelia, Uruapan, Zamora, Apatzingán y Lázaro Cárdenas",
+    "horario": "Lun-Vie",
+    "proceso": "Solicitud en línea (portal FGE) + pago en caja recaudadora + recojo presencial en módulo regional con cita",
+    "vigencia": "1 mes",
+    "fuente": "Ley de Ingresos Michoacán 2026"
+   },
+   "costoConfirmado": true,
+   "costoNota": "Confirmado en Ley de Ingresos de Michoacán 2026 (Art. 28 Cap. XI)"
+  },
+  {
+   "slug": "morelos",
+   "nombre": "Morelos",
+   "emisor": "Fiscalía General del Estado de Morelos",
+   "modalidad": "presencial",
+   "costoEstimado": "$217 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://fiscaliamorelos.gob.mx/",
+   "capital": "Cuernavaca",
+   "ciudades": [
+    "Cuernavaca"
+   ],
+   "sede": {
+    "nombre": "Constancias FGE Morelos",
+    "direccion": "Dirección General Jurídica, Gutemberg No. 4, Cuernavaca; además fiscalías regionales del estado",
+    "horario": "Lun-Vie 8:00-15:00",
+    "proceso": "Validación de documentación previa, luego agendar cita; trámite personal (prohibido celulares, gorras, lentes); pago en cajas FGE o Santander",
+    "vigencia": "Documentos no mayores a 60 días",
+    "fuente": "servicios.fiscaliamorelos.gob.mx"
+   },
+   "costoConfirmado": true,
+   "costoNota": "Según portal oficial; modalidad normal 24-48h"
+  },
+  {
+   "slug": "nayarit",
+   "nombre": "Nayarit",
+   "emisor": "Fiscalía General del Estado de Nayarit",
+   "modalidad": "presencial",
+   "costoEstimado": "$190 MXN (la del CEI-SESP es gratuita)",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://www.fiscalianayarit.gob.mx/",
+   "capital": "Tepic",
+   "ciudades": [
+    "Tepic"
+   ],
+   "sede": {
+    "nombre": "FGE Nayarit / Centro Estatal de Información",
+    "direccion": "Av. México Norte 280, Tepic; módulo regional en Bahía de Banderas (la constancia del CEI-SESP: Av. Tecnológico 3200, Tepic)",
+    "horario": "Lun-Vie 9:00-15:00",
+    "proceso": "Presencial (turno desde 8:30) o en línea desde 2025; pago en cajas de la Sec. de Administración y Finanzas; nota: la constancia del CEI-SESP es gratuita",
+    "vigencia": "3 meses",
+    "fuente": "Ley de Ingresos Nayarit 2026"
+   },
+   "costoConfirmado": true,
+   "costoNota": "$190 según Ley de Ingresos de Nayarit 2026 para la de la FGE; la del CEI-SESP no tiene costo"
+  },
+  {
+   "slug": "nuevo-leon",
+   "nombre": "Nuevo León",
+   "emisor": "Fiscalía General de Justicia del Estado de Nuevo León",
+   "modalidad": "presencial",
+   "costoEstimado": "$100–$250 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://www.fiscalianl.gob.mx/",
+   "capital": "Monterrey",
+   "ciudades": [
+    "Monterrey",
+    "Guadalupe",
+    "Apodaca",
+    "San Nicolás"
+   ],
+   "sede": {
+    "nombre": "Pabellón Ciudadano (3er piso)",
+    "direccion": "Washington 2000, Col. Obrera, C.P. 64010, Monterrey",
+    "horario": "Lun-Vie (pago en Tesorería 8:00-16:00)",
+    "proceso": "Cita previa por correo a constanciaspenalesnl@nuevoleon.gob.mx; se toma foto y huella; sede única para todo el estado",
+    "vigencia": "90 días naturales",
+    "fuente": null,
+    "sedeUnica": true
+   },
+   "notaEspecial": "El trámite en Nuevo León se realiza en una sola sede para todo el estado. Si vives en otro municipio, deberás acudir a la capital."
+  },
+  {
+   "slug": "oaxaca",
+   "nombre": "Oaxaca",
+   "emisor": "Dirección Jurídica de la Policía Estatal (SSPO)",
+   "modalidad": "presencial",
+   "costoEstimado": "$215 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://www.fge.oaxaca.gob.mx/",
+   "capital": "Oaxaca de Juárez",
+   "ciudades": [
+    "Oaxaca de Juárez"
+   ],
+   "sede": {
+    "nombre": "Dirección Jurídica de la Policía Estatal (SSPO)",
+    "direccion": "Carretera Oaxaca-Puerto Ángel Km 9.5, Santa María Coyotepec (a 9.5 km al sur de Oaxaca de Juárez)",
+    "horario": "Lun-Vie 8:00-20:00 y Sáb 9:00-13:00 (el más amplio del país)",
+    "proceso": "Cita previa; pre-registro digital + conclusión presencial; 6 fotografías (3 frente, 3 perfil); solo atienden al interesado; se toma huella",
+    "vigencia": "Consultar (UABJO acepta menor a 60 días)",
+    "fuente": "oaxaca.gob.mx"
+   }
+  },
+  {
+   "slug": "puebla",
+   "nombre": "Puebla",
+   "emisor": "Fiscalía General del Estado de Puebla",
+   "modalidad": "mixta",
+   "costoEstimado": "$100–$250 MXN",
+   "enLinea": true,
+   "gratuito": false,
+   "portal": "https://fiscalia.puebla.gob.mx/Servicios/CNAP",
+   "capital": "Puebla de Zaragoza",
+   "ciudades": [
+    "Puebla",
+    "Tehuacán"
+   ]
+  },
+  {
+   "slug": "queretaro",
+   "nombre": "Querétaro",
+   "emisor": "Fiscalía General del Estado de Querétaro",
+   "modalidad": "mixta",
+   "costoEstimado": "$100–$250 MXN",
+   "enLinea": true,
+   "gratuito": false,
+   "portal": "https://www.fiscaliaqueretaro.gob.mx/",
+   "capital": "Santiago de Querétaro",
+   "ciudades": [
+    "Santiago de Querétaro"
+   ]
+  },
+  {
+   "slug": "quintana-roo",
+   "nombre": "Quintana Roo",
+   "emisor": "Fiscalía General del Estado de Quintana Roo",
+   "modalidad": "presencial",
+   "costoEstimado": "$280 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://fgeqroo.gob.mx/",
+   "capital": "Chetumal",
+   "ciudades": [
+    "Cancún",
+    "Playa del Carmen",
+    "Chetumal"
+   ],
+   "sede": {
+    "nombre": "Oficinas FGE Quintana Roo",
+    "direccion": "Chetumal: Av. Adolfo López Mateos 500, Col. Italia, C.P. 77035; Cancún: Av. Xcaret con Kabah, SM 21, Mza. 03; también Playa del Carmen, Cozumel y Tulum",
+    "horario": "Lun-Vie 8:00-13:00 (entrega de certificados 15:30-17:00)",
+    "proceso": "Cita en línea en fgeqroo.gob.mx eligiendo municipio; pago en Banorte/HSBC o cajas SEFIPLAN; 2 fotos infantiles B/N en papel fotográfico",
+    "vigencia": "No fijada oficialmente (usualmente 30-90 días)",
+    "fuente": "fgeqroo.gob.mx"
+   },
+   "nombreLocal": "Certificado de Antecedentes Registrales"
+  },
+  {
+   "slug": "san-luis-potosi",
+   "nombre": "San Luis Potosí",
+   "emisor": "Fiscalía General del Estado de San Luis Potosí",
+   "modalidad": "mixta",
+   "costoEstimado": "$100–$250 MXN",
+   "enLinea": true,
+   "gratuito": false,
+   "portal": "https://fiscaliaslp.gob.mx/",
+   "capital": "San Luis Potosí",
+   "alias": "slp",
+   "ciudades": [
+    "San Luis Potosí"
+   ]
+  },
+  {
+   "slug": "sinaloa",
+   "nombre": "Sinaloa",
+   "emisor": "Fiscalía General del Estado de Sinaloa",
+   "modalidad": "presencial",
+   "costoEstimado": "$165 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://fiscaliasinaloa.mx/",
+   "capital": "Culiacán",
+   "ciudades": [
+    "Culiacán",
+    "Mazatlán",
+    "Los Mochis"
+   ],
+   "sede": {
+    "nombre": "Módulos USE / Ciudadano Digital",
+    "direccion": "Oficinas USE en Culiacán, Mazatlán y Los Mochis (ej. Marcial Ordóñez y Allende s/n, Col. Centro, Los Mochis)",
+    "horario": "Lun-Vie 8:00-15:00",
+    "proceso": "Inicio en portal Ciudadano Digital (ciudadano.sinaloa.gob.mx) y validación de huellas en módulo USE",
+    "vigencia": "Consultar",
+    "fuente": null
+   },
+   "costoConfirmado": true
+  },
+  {
+   "slug": "sonora",
+   "nombre": "Sonora",
+   "emisor": "Fiscalía General de Justicia del Estado de Sonora",
+   "modalidad": "presencial",
+   "costoEstimado": "$186 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://www.fgjesonora.gob.mx/",
+   "capital": "Hermosillo",
+   "ciudades": [
+    "Hermosillo",
+    "Ciudad Obregón",
+    "Nogales"
+   ],
+   "sede": {
+    "nombre": "Módulo CUM (Centro de Usos Múltiples)",
+    "direccion": "Módulo en el CUM, Hermosillo; oficinas en Guaymas, Ciudad Obregón y Navojoa",
+    "horario": "Lun-Vie 8:00-15:00",
+    "proceso": "Por orden de llegada (100 turnos/día); pago en línea vía fiscalia.sonora.gob.mx, con QR o en agencia fiscal; se toma huella",
+    "vigencia": "Consultar",
+    "fuente": null
+   },
+   "costoConfirmado": true
+  },
+  {
+   "slug": "tabasco",
+   "nombre": "Tabasco",
+   "emisor": "Dirección General del Sistema Penitenciario Estatal (SSyPC)",
+   "modalidad": "presencial",
+   "costoEstimado": "3 UMAS (aprox. $339 MXN en 2026)",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://fiscaliatabasco.gob.mx/",
+   "capital": "Villahermosa",
+   "ciudades": [
+    "Villahermosa"
+   ],
+   "sede": {
+    "nombre": "Dirección General del Sistema Penitenciario Estatal (SSyPC)",
+    "direccion": "Av. Gregorio Méndez Magaña 723, Col. Centro, C.P. 86077, Villahermosa (pago en caja de la Sec. de Finanzas, Av. Adolfo Ruiz Cortines s/n, Col. Casa Blanca)",
+    "horario": "Lun-Vie 8:00-15:30",
+    "proceso": "Presencial sin cita, dos visitas: pagar línea de captura en Finanzas, luego acudir al Sistema Penitenciario con escrito libre y documentos; entrega en 3 días hábiles",
+    "vigencia": "Consultar",
+    "fuente": "tabasco.gob.mx"
+   },
+   "costoConfirmado": true,
+   "costoNota": "Es 3 UMAS; el monto en pesos varía cada año con el valor de la UMA"
+  },
+  {
+   "slug": "tamaulipas",
+   "nombre": "Tamaulipas",
+   "emisor": "Fiscalía General de Justicia del Estado de Tamaulipas",
+   "modalidad": "presencial",
+   "costoEstimado": "3 UMAS (aprox. $339 MXN en 2026)",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://www.fiscaliatam.gob.mx/",
+   "capital": "Ciudad Victoria",
+   "ciudades": [
+    "Reynosa",
+    "Matamoros",
+    "Nuevo Laredo",
+    "Tampico"
+   ],
+   "sede": {
+    "nombre": "Dirección de Control de Procesos, FGJ Tamaulipas",
+    "direccion": "Av. José Sulaimán Chagnón entronque con Libramiento Naciones Unidas #641, C.P. 87039, Ciudad Victoria; módulos en Reynosa, Matamoros, Nuevo Laredo, Tampico y Mante",
+    "horario": "Lun-Vie 8:30-14:30",
+    "proceso": "Cita previa (tel. 834 318 51 28 o en línea); presencial con documentos originales; pago en banco por adelantado",
+    "vigencia": "1 mes",
+    "fuente": "fiscaliadigital.fgjtam.gob.mx"
+   },
+   "costoConfirmado": true,
+   "costoNota": "El costo es 3 UMAS según Ley de Hacienda Art. 59; el monto en pesos varía cada año con el valor de la UMA"
+  },
+  {
+   "slug": "tlaxcala",
+   "nombre": "Tlaxcala",
+   "emisor": "Procuraduría General de Justicia del Estado de Tlaxcala",
+   "modalidad": "presencial",
+   "costoEstimado": "2 UMAS (aprox. $226 MXN en 2026)",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://procuraduria.tlaxcala.gob.mx/",
+   "capital": "Tlaxcala",
+   "ciudades": [
+    "Tlaxcala"
+   ],
+   "sede": {
+    "nombre": "Departamento de Servicios Periciales (PGJE Tlaxcala)",
+    "direccion": "Libramiento Poniente s/n, Col. Unitlax, C.P. 90000, Tlaxcala",
+    "horario": "Lun-Vie 8:00-15:00",
+    "proceso": "Cita en línea (constanciasenlinea.pgjtlaxcala) + presencial; pago por orden del portal; se toman huellas; la cita no se puede reagendar",
+    "vigencia": "No fija (usualmente 30-90 días)",
+    "fuente": "tlaxcaladigital.gob.mx"
+   },
+   "costoConfirmado": true,
+   "costoNota": "Es 2 UMAS según Código Financiero de Tlaxcala; monto en pesos varía con la UMA"
+  },
+  {
+   "slug": "veracruz",
+   "nombre": "Veracruz",
+   "emisor": "Fiscalía General del Estado de Veracruz",
+   "modalidad": "presencial",
+   "costoEstimado": "$260–$276 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://www.fiscaliaveracruz.gob.mx/",
+   "capital": "Xalapa",
+   "ciudades": [
+    "Veracruz",
+    "Xalapa",
+    "Coatzacoalcos"
+   ],
+   "sede": {
+    "nombre": "Dirección General de Prevención y Reinserción Social (SSP)",
+    "direccion": "Calle Nicolás Bravo 34, Zona Centro, C.P. 91000, Xalapa",
+    "horario": "Lun-Vie 9:00-14:00",
+    "proceso": "Modalidad mixta: solicitud por correo con documentos digitalizados o presencial; recolección en Xalapa; pago vía línea de captura (OVH Hacienda)",
+    "vigencia": "Consultar (UV acepta menor a 60 días)",
+    "fuente": "veracruz.gob.mx/seguridad"
+   }
+  },
+  {
+   "slug": "yucatan",
+   "nombre": "Yucatán",
+   "emisor": "Fiscalía General del Estado de Yucatán",
+   "modalidad": "mixta",
+   "costoEstimado": "$100–$250 MXN",
+   "enLinea": true,
+   "gratuito": false,
+   "portal": "https://www.fiscaliayucatan.gob.mx/",
+   "capital": "Mérida",
+   "ciudades": [
+    "Mérida"
+   ]
+  },
+  {
+   "slug": "zacatecas",
+   "nombre": "Zacatecas",
+   "emisor": "Fiscalía General de Justicia del Estado de Zacatecas",
+   "modalidad": "presencial",
+   "costoEstimado": "$239 MXN",
+   "enLinea": false,
+   "gratuito": false,
+   "portal": "https://fiscaliazacatecas.gob.mx/",
+   "capital": "Zacatecas",
+   "ciudades": [
+    "Zacatecas"
+   ],
+   "sede": {
+    "nombre": "Servicios Periciales, FGJE Zacatecas",
+    "direccion": "Ventanilla de Servicios Periciales de la Fiscalía, Ciudad Gobierno, Zacatecas",
+    "horario": "Lun-Vie",
+    "proceso": "Pago vía Portal Tributario Zacatecas o Kioscos Electrónicos; presencial en ventanilla de Servicios Periciales",
+    "vigencia": "Consultar",
+    "fuente": "Ley de Hacienda Zacatecas 2026"
+   },
+   "costoConfirmado": true,
+   "costoNota": "Confirmado en Ley de Hacienda del Estado de Zacatecas 2026"
+  }
+ ]
+}

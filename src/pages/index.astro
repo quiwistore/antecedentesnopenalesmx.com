@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import Ad from '../components/Ad.astro';
+import data from '../data/estados.json';
+const estados = data.estados;
+const online = estados.filter(e => e.enLinea);
+const gratis = estados.filter(e => e.gratuito);
+const faqs = [
+  { q: '¿Qué es la constancia de antecedentes no penales?', a: 'Es el documento oficial que certifica si una persona tiene o no sentencias condenatorias registradas en el sistema de justicia mexicano. Si tu historial está limpio, obtienes la llamada "carta de no antecedentes penales". La expiden las Fiscalías Generales de cada estado (fuero común) y la FGR a nivel federal.' },
+  { q: '¿Cuál necesito: la estatal o la federal?', a: 'Depende de quién te la pida. La <strong>estatal</strong> cubre delitos del fuero común y es la más común para empleos privados y trámites locales; se tramita en la Fiscalía de tu estado. La <strong>federal</strong> cubre delitos federales y la piden para plazas federales, adopciones internacionales y algunas visas. Pregunta siempre cuál te exigen; a veces piden ambas.' },
+  { q: '¿Cuánto cuesta la carta de antecedentes no penales?', a: 'Varía por estado. La <a href="/federal/">federal es gratuita en línea</a>. Entre los estatales, algunos como la <a href="/estados/ciudad-de-mexico/">CDMX</a> y el <a href="/estados/estado-de-mexico/">Estado de México</a> son gratuitos en línea, mientras que otros cobran generalmente entre $92 y $300 MXN según la ley de ingresos de cada entidad. Consulta el <a href="/costos/">comparativo de costos</a>.' },
+  { q: '¿Se puede sacar en línea?', a: 'La federal sí, es 100% en línea y gratuita. Entre los estados, ' + online.length + ' ofrecen alguna modalidad en línea o mixta (como CDMX, Estado de México, Puebla, Guanajuato y Chihuahua). El resto es presencial en las oficinas de la Fiscalía. Revisa cuáles en <a href="/en-linea/">antecedentes no penales en línea</a>.' },
+  { q: '¿Qué requisitos piden?', a: 'En general: identificación oficial vigente (INE, pasaporte o cédula), CURP actualizada, en algunos estados comprobante de domicilio, y correo electrónico. Los detalles exactos varían por entidad; revisa la <a href="/requisitos/">guía de requisitos</a> o la ficha de tu estado.' },
+  { q: '¿Cuánto tiempo es válida?', a: 'Depende de la institución que la solicita, pero suele aceptarse una constancia con vigencia de entre 1 y 6 meses desde su expedición. Muchos empleadores piden que sea reciente (no mayor a 3 meses). Confirma el requisito de vigencia con quien te la pide.' }
+];
+const schema = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": faqs.map(f => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a.replace(/<[^>]+>/g, '') } })) };
+---
+<Base title="Carta de Antecedentes No Penales 2026: Requisitos, Costo y Cómo Tramitarla" description="Guía completa 2026 para tramitar tu constancia de antecedentes no penales en México: federal y por estado. Requisitos, costos, modalidad en línea o presencial y pasos oficiales." path="/" schema={schema}>
+<div class="hero"><div class="wrap">
+<h1>Carta de antecedentes no penales en México</h1>
+<p class="lead">Todo lo que necesitas para tramitar tu constancia de no antecedentes penales en 2026: requisitos, costo y pasos, federal y estado por estado, con enlaces a los portales oficiales.</p>
+<a class="btn" href="/estados/">Ver mi estado</a>
+<a class="btn sec" href="/federal/">Constancia federal (gratis)</a>
+</div></div>
+<main class="wrap">
+<h2>¿Qué documento necesitas?</h2>
+<div class="grid c2">
+<div class="card"><h3>Constancia estatal</h3><p>Cubre delitos del <strong>fuero común</strong> en tu entidad. Es la más pedida para empleos en el sector privado y trámites locales. La expide la Fiscalía General de tu estado, y el costo, la modalidad (en línea o presencial) y los requisitos cambian según la entidad.</p><a href="/estados/">Elegir mi estado &rarr;</a></div>
+<div class="card"><h3>Constancia federal</h3><p>Cubre delitos del <strong>fuero federal</strong>. La expide la FGR a través del OADPRS, es <strong>100% en línea y gratuita</strong>, y se usa para plazas federales, adopciones internacionales, algunas visas y contratos con dependencias federales.</p><a href="/federal/">Cómo sacar la federal &rarr;</a></div>
+</div>
+<Ad />
+<h2>Elige tu estado</h2>
+<p>Cada estado tiene su propio costo, modalidad y portal oficial. Selecciona el tuyo para ver la ficha completa con requisitos, pasos y enlace directo a la Fiscalía:</p>
+<div class="estado-grid">
+{estados.map(e => (
+<a href={'/estados/' + e.slug + '/'}>
+<strong>{e.nombre}</strong>
+<span>{e.gratuito ? 'Gratis' : e.costoEstimado} · {e.modalidad === 'en línea' ? 'En línea' : e.modalidad === 'mixta' ? 'En línea/presencial' : 'Presencial'}</span>
+</a>
+))}
+</div>
+<Ad />
+<h2>Preguntas frecuentes</h2>
+<Faq items={faqs} />
+</main>
+</Base>

@@ -1,0 +1,62 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Faq from '../../../components/Faq.astro';
+import Ad from '../../../components/Ad.astro';
+import data from '../../../data/estados.json';
+export function getStaticPaths(){
+  // Solo estados con sede física real y verificada (con dirección). Sin dato oficial no generamos página vacía.
+  return data.estados.filter(e => e.sede && !e.sede.porVerificar && e.sede.direccion).map(e => ({ params:{ slug:e.slug }, props:{ e } }));
+}
+const { e } = Astro.props;
+const tieneSede = e.sede && !e.sede.porVerificar && e.sede.direccion;
+const faqs=[
+  { q:`¿Necesito cita para ir a la oficina en ${e.nombre}?`, a: e.notaEspecial ? e.notaEspecial : `Depende del estado. Algunos atienden por orden de llegada y otros exigen cita previa. Revisa el proceso indicado arriba o confírmalo en el portal oficial de ${e.emisor} antes de acudir.` },
+  { q:`¿Qué llevo a la oficina?`, a:`Identificación oficial vigente, CURP y, en algunos casos, comprobante de domicilio y comprobante de pago. <a href="/estados/${e.slug}/requisitos/">Ver la lista completa de requisitos &rarr;</a>` },
+  { q:`¿Puedo pagar en la misma oficina?`, a:`En varios estados el pago se hace antes en banco o línea de captura y solo presentas el comprobante. En otros hay caja en la sede. <a href="/estados/${e.slug}/costo/">Ver formas de pago &rarr;</a>` },
+  { q:`¿Atienden a residentes de todo ${e.nombre}?`, a:`Sí. La constancia es estatal, así que la sede atiende a residentes de todo el estado. Si vives lejos, planifica el traslado o revisa si hay módulos regionales.` }
+];
+const schema={ "@context":"https://schema.org","@type":"FAQPage","mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a.replace(/<[^>]+>/g,'')}})) };
+const mapsSearch = tieneSede ? 'https://www.google.com/maps?q=' + encodeURIComponent(e.sede.direccion + ', ' + e.nombre + ', México') + '&output=embed' : '';
+const mapsDir = tieneSede ? 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(e.sede.direccion + ', ' + e.nombre + ', México') : '';
+---
+<Base title={`Dónde Tramitar Antecedentes No Penales en ${e.nombre}: Dirección, Mapa y Horario`} description={`Dónde tramitar tu constancia de no antecedentes penales en ${e.nombre}: dirección oficial, horario, mapa y qué llevar. Guía práctica para no perder el viaje.`} path={`/estados/${e.slug}/donde-tramitar/`} schema={schema}>
+<div class="hero"><div class="wrap">
+<h1>Dónde tramitar en {e.nombre}</h1>
+<p class="lead">La dirección oficial, el horario y qué llevar para tramitar tu constancia de no antecedentes penales en {e.nombre} sin perder el viaje.</p>
+</div></div>
+<main class="wrap">
+<div class="crumbs"><a href="/">Inicio</a> &rsaquo; <a href="/estados/">Estados</a> &rsaquo; <a href={`/estados/${e.slug}/`}>{e.nombre}</a> &rsaquo; Dónde tramitar</div>
+
+{tieneSede ? (
+<>
+<div class="sede-card">
+<div class="sede-row"><i class="fa-solid fa-building-columns"></i><div><strong>{e.sede.nombre}</strong><span>{e.sede.direccion}</span></div></div>
+{e.sede.horario && <div class="sede-row"><i class="fa-solid fa-clock"></i><div><strong>Horario</strong><span>{e.sede.horario}</span></div></div>}
+{e.sede.proceso && <div class="sede-row"><i class="fa-solid fa-list-check"></i><div><strong>Proceso</strong><span>{e.sede.proceso}</span></div></div>}
+{e.sede.vigencia && <div class="sede-row"><i class="fa-solid fa-calendar-check"></i><div><strong>Vigencia del documento</strong><span>{e.sede.vigencia}</span></div></div>}
+</div>
+<iframe title={'Mapa: ' + e.sede.nombre} width="100%" height="320" style="border:0;border-radius:10px;margin:.8rem 0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src={mapsSearch}></iframe>
+<a class="btn btn-map" href={mapsDir} rel="nofollow noopener"><i class="fa-solid fa-diamond-turn-right"></i> Cómo llegar</a>
+<p class="sede-fuente">Datos según {e.sede.fuente || 'fuentes oficiales'}. Confirma horario y disponibilidad en el portal oficial antes de acudir.</p>
+</>
+) : (
+<div class="card"><p>Consulta en el <a href={e.portal} rel="nofollow noopener">portal oficial de {e.emisor}</a> la sede que te corresponde en {e.nombre}, con su dirección y horario actualizados.</p></div>
+)}
+
+<Ad />
+
+<h2>Qué llevar</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+{data.requisitosComunes.map(r => (<li style="margin:.4rem 0">{r}</li>))}
+</ul></div>
+<p><a href={`/estados/${e.slug}/requisitos/`}>Ver requisitos detallados &rarr;</a> · <a href={`/estados/${e.slug}/costo/`}>Ver costo y cómo pagar &rarr;</a></p>
+
+<div class="notice"><i class="fa-solid fa-lightbulb"></i> <strong>Tip:</strong> llama o revisa el portal oficial antes de ir para confirmar horario y si necesitas cita. Así evitas el viaje en vano.</div>
+
+<Ad />
+
+<h2>Preguntas frecuentes</h2>
+<Faq items={faqs} />
+<p style="margin-top:1.5rem"><a href={`/estados/${e.slug}/`}>&larr; Volver a la guía completa de {e.nombre}</a></p>
+</main>
+</Base>

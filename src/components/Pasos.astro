@@ -1,0 +1,27 @@
+---
+const { pasos } = Astro.props;
+---
+<div class="pasos-tool" data-total={pasos.length}>
+<div class="pasos-prog"><div class="pasos-bar"></div><span class="pasos-txt">0 de {pasos.length} pasos</span></div>
+<ol class="pasos-check">
+{pasos.map((p, i) => (
+<li><label><input type="checkbox" data-i={i} /><span class="pasos-num">{i + 1}</span><span class="pasos-body" set:html={p} /></label></li>
+))}
+</ol>
+</div>
+<script is:inline>
+document.querySelectorAll('.pasos-tool').forEach(function(tool){
+  var total=parseInt(tool.dataset.total,10);
+  var boxes=tool.querySelectorAll('input[type=checkbox]');
+  var bar=tool.querySelector('.pasos-bar');
+  var txt=tool.querySelector('.pasos-txt');
+  function upd(){
+    var n=0;boxes.forEach(function(b){if(b.checked)n++;});
+    bar.style.width=(total?n/total*100:0)+'%';
+    txt.textContent=n+' de '+total+' pasos';
+    boxes.forEach(function(b){b.closest('li').classList.toggle('done',b.checked);});
+    if(n===total&&total>0){txt.textContent='¡Completado!';}
+  }
+  boxes.forEach(function(b){b.addEventListener('change',upd);});
+});
+</script>

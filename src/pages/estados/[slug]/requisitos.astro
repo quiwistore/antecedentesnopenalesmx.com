@@ -1,0 +1,44 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Faq from '../../../components/Faq.astro';
+import Ad from '../../../components/Ad.astro';
+import data from '../../../data/estados.json';
+export function getStaticPaths(){
+  return data.estados.map(e => ({ params:{ slug:e.slug }, props:{ e } }));
+}
+const { e } = Astro.props;
+const esMenor = e.modalidad !== 'en línea';
+const faqs=[
+  { q:`¿Qué identificación aceptan en ${e.nombre}?`, a:`Se acepta INE/credencial de elector, pasaporte mexicano vigente o cédula profesional con fotografía. Debe estar vigente y en original.` },
+  { q:`¿Necesito el acta de nacimiento?`, a:`En la mayoría de los estados sí, en original, para descartar homonimia (que otra persona con tu mismo nombre tenga antecedentes). Verifica el requisito exacto en ${e.emisor}.` },
+  { q:`¿Puedo tramitarla si soy extranjero residente en ${e.nombre}?`, a:`Sí, presentando tu documento migratorio vigente (residencia temporal o permanente) y CURP. Si tus documentos vienen de otro país, es posible que pidan apostilla y traducción al español.` },
+  { q:`¿Sirve una CURP impresa de internet?`, a:`Sí, la CURP descargada del portal oficial en su formato más reciente (con código QR) es válida. Asegúrate de que esté actualizada y legible.` }
+];
+const schema={ "@context":"https://schema.org","@type":"FAQPage","mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a}})) };
+---
+<Base title={`Requisitos para Antecedentes No Penales en ${e.nombre} 2026: Documentos Completos`} description={`Lista completa de documentos para tramitar tu constancia de no antecedentes penales en ${e.nombre}: identificación, CURP, acta de nacimiento y requisitos especiales.`} path={`/estados/${e.slug}/requisitos/`} schema={schema}>
+<div class="hero"><div class="wrap">
+<h1>Requisitos en {e.nombre}</h1>
+<p class="lead">Todos los documentos que necesitas para tramitar tu constancia de no antecedentes penales en {e.nombre}, con los detalles que suelen causar rechazo en ventanilla.</p>
+<a class="btn" href={`/estados/${e.slug}/`}>Volver a la guía de {e.nombre}</a>
+</div></div>
+<main class="wrap">
+<div class="crumbs"><a href="/">Inicio</a> &rsaquo; <a href="/estados/">Estados</a> &rsaquo; <a href={`/estados/${e.slug}/`}>{e.nombre}</a> &rsaquo; Requisitos</div>
+<h2>Documentos obligatorios</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+{data.requisitosComunes.map(r => (<li style="margin:.5rem 0">{r}</li>))}
+</ul></div>
+<div class="notice"><i class="fa-solid fa-triangle-exclamation"></i> El error más común es llevar documentos vencidos o ilegibles. En {e.nombre}, {e.emisor} puede rechazar el trámite si el acta o la identificación no están en buen estado. Lleva originales y copias legibles.</div>
+<Ad />
+<h2>Para casos especiales</h2>
+<h3>Si eres extranjero</h3>
+<p>Presenta tu documento migratorio vigente (residencia temporal o permanente) además de la CURP. Documentos emitidos en el extranjero pueden requerir apostilla y traducción.</p>
+<h3>Si lo tramita otra persona por ti</h3>
+<p>En muchos estados se permite mediante carta poder simple o notariada, con copias de identificaciones. Sin embargo, en trámites con toma de foto y huella, generalmente debe acudir el interesado. Confirma en {e.emisor}.</p>
+<Ad />
+<h2>Preguntas frecuentes sobre requisitos en {e.nombre}</h2>
+<Faq items={faqs} />
+<h2>Siguiente paso</h2>
+<p>Con tus documentos listos, revisa <a href={`/estados/${e.slug}/costo/`}>cuánto cuesta y cómo pagar en {e.nombre}</a> o vuelve a la <a href={`/estados/${e.slug}/`}>guía completa del trámite</a>.</p>
+</main>
+</Base>

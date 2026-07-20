@@ -1,0 +1,150 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Pasos from '../../components/Pasos.astro';
+import Ad from '../../components/Ad.astro';
+import data from '../../data/estados.json';
+
+export function getStaticPaths(){
+  const slugify=(str)=>str.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const paths=[];
+  for(const e of data.estados){
+    for(const ciudad of (e.ciudades||[])){
+      paths.push({ params:{ slug: slugify(ciudad) }, props:{ ciudad, e } });
+    }
+  }
+  return paths;
+}
+const { ciudad, e } = Astro.props;
+const F = data.federal;
+const esCapital = ciudad === e.capital;
+const esGratis = e.gratuito;
+const esOnline = e.enLinea;
+const modLabel = e.modalidad === 'en línea' ? 'en línea' : e.modalidad === 'mixta' ? 'en línea o presencial' : 'presencial';
+const costoConf = e.costoConfirmado;
+function h(str){let x=0;for(let i=0;i<str.length;i++){x=((x<<5)-x+str.charCodeAt(i))|0}return Math.abs(x)}
+const seed=h(ciudad+e.slug);
+const rot=(arr)=>arr[seed%arr.length];
+
+const introVars=[
+  `Si estás en ${ciudad} y necesitas la constancia de antecedentes no penales, este es un trámite del estado de ${e.nombre} que expide ${e.emisor}. Aquí tienes el costo, los requisitos, la modalidad y dónde tramitarlo desde ${ciudad}, actualizado en ${data.asAt}.`,
+  `¿Vives en ${ciudad}? La carta de no antecedentes penales se gestiona a nivel estatal en ${e.nombre}, pero aquí te explicamos cómo obtenerla desde ${ciudad}: cuánto cuesta, qué documentos llevar, si puedes hacerlo ${modLabel} y a dónde acudir.`,
+  `Tramitar tu constancia de no antecedentes penales en ${ciudad} ${esCapital ? 'es directo por ser la capital de '+e.nombre : 'depende de la Fiscalía de '+e.nombre+', ya que es un trámite estatal'}. Te dejamos el costo actualizado en ${data.asAt}, los requisitos y el paso a paso, con enlace al portal oficial.`
+];
+
+const pasos = esOnline ? [
+  `Desde ${ciudad}, ingresa al portal oficial de ${e.emisor} (puedes hacerlo desde cualquier dispositivo con internet).`,
+  `Crea una cuenta o inicia sesión y captura tus datos personales: nombre, CURP y domicilio en ${ciudad}.`,
+  `Adjunta tu identificación oficial vigente y tu CURP en formato digital.`,
+  esGratis ? `Genera tu constancia sin costo y descárgala en PDF con su código de verificación.` : `Paga los derechos correspondientes (en línea o en una sucursal bancaria en ${ciudad}).`,
+  `Descarga e imprime tu constancia. Verifica que traiga el folio o código QR de validación oficial.`
+] : [
+  `Reúne tus documentos: identificación oficial vigente y CURP actualizada.`,
+  esCapital ? `Acude a las oficinas de ${e.emisor} en ${ciudad}, sede principal del estado.` : `Localiza el módulo de ${e.emisor} que atiende a ${ciudad} o acude a la sede más cercana en el estado de ${e.nombre}.`,
+  `Realiza el pago de derechos en ventanilla o banco autorizado y conserva tu comprobante.`,
+  `Presenta tu documentación y comprobante de pago; en algunos módulos se toma foto y huella en el momento.`,
+  `Recibe tu constancia impresa el mismo día o en el plazo que indique la oficina.`
+];
+
+const usoLocal = rot([
+  `En ${ciudad} la constancia se pide sobre todo para empleos, trámites migratorios y contratos que exigen comprobar tu situación legal.`,
+  `Muchos empleadores en ${ciudad} y en el resto de ${e.nombre} solicitan esta constancia como parte del proceso de contratación.`,
+  `Si buscas trabajo o realizas un trámite migratorio desde ${ciudad}, es probable que te pidan esta constancia reciente.`
+]);
+
+const faqs=[
+  { q:`¿Cuánto cuesta la carta de antecedentes no penales en ${ciudad}?`, a: esGratis ? `Para quienes viven en ${ciudad}, el trámite en ${e.nombre} es <strong>gratuito</strong> en su modalidad en línea a través de ${e.emisor}.` : costoConf ? `En ${ciudad}, al ser parte de ${e.nombre}, el costo es de <strong>${e.costoEstimado}</strong> según ${e.emisor}. El monto aplica en todo el estado.` : `En ${ciudad} el costo es el mismo que en todo ${e.nombre}: alrededor de <strong>${e.costoEstimado}</strong> (estimado). El precio exacto lo fija la Ley de Ingresos estatal; confírmalo en el portal oficial antes de pagar.` },
+  { q:`¿Dónde saco la constancia en ${ciudad}?`, a: esOnline ? `Desde ${ciudad} puedes tramitarla ${modLabel} a través del portal de ${e.emisor}, sin necesidad de trasladarte${esCapital ? '' : ' a la capital del estado'}. <a href="/estados/${e.slug}/">Ver detalles del trámite en ${e.nombre}</a>.` : `El trámite es presencial en las oficinas de ${e.emisor}. ${esCapital ? `En ${ciudad}, al ser la capital, se encuentra la sede principal.` : `Consulta en el <a href="${e.portal}" rel="nofollow noopener">portal oficial</a> el módulo que atiende a ${ciudad}.`}` },
+  { q:`¿Los requisitos en ${ciudad} son distintos al resto de ${e.nombre}?`, a: `No. Al ser un trámite estatal, los requisitos son los mismos en todo ${e.nombre}: identificación oficial vigente, CURP actualizada${e.modalidad!=='en línea'?' y en algunos casos comprobante de domicilio':''}. <a href="/estados/${e.slug}/">Ver requisitos completos de ${e.nombre}</a>.` },
+  { q:`¿Puedo tramitarla en línea desde ${ciudad}?`, a: esOnline ? `Sí. ${e.nombre} ofrece modalidad ${modLabel}, así que desde ${ciudad} puedes iniciar el trámite por internet.` : `No directamente: en ${e.nombre} el trámite es presencial. Si necesitas una versión digital, la <a href="/federal/">constancia federal</a> sí es en línea, aunque cubre delitos distintos.` }
+];
+if(e.notaEspecial){ faqs.splice(1,0,{ q:`¿Necesito cita previa en ${ciudad}?`, a:e.notaEspecial }); }
+
+const schemaService={ "@context":"https://schema.org","@type":"GovernmentService","name":`Constancia de antecedentes no penales en ${ciudad}`,"serviceType":"Constancia de no antecedentes penales","provider":{"@type":"GovernmentOrganization","name":e.emisor},"areaServed":{"@type":"City","name":ciudad,"containedInPlace":{"@type":"State","name":e.nombre}} };
+const schemaFaq={ "@context":"https://schema.org","@type":"FAQPage","mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a.replace(/<[^>]+>/g,'')}})) };
+const schemaBread={ "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://antecedentesnopenalesmx.com/"},{"@type":"ListItem","position":2,"name":e.nombre,"item":`https://antecedentesnopenalesmx.com/estados/${e.slug}/`},{"@type":"ListItem","position":3,"name":ciudad}] };
+
+const slugCiudad=ciudad.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const title=`Carta de Antecedentes No Penales en ${ciudad} 2026: Costo, Requisitos y Dónde Sacarla`;
+const desc=`Cómo tramitar la constancia de no antecedentes penales en ${ciudad}, ${e.nombre}: ${esGratis?'gratis':'costo '+e.costoEstimado}, requisitos, modalidad ${modLabel} y dónde sacarla. Guía actualizada en ${data.asAt}.`;
+---
+<Base title={title} description={desc} path={'/ciudad/' + slugCiudad + '/'} schema={[schemaService, schemaFaq, schemaBread]}>
+<div class="hero"><div class="wrap">
+<h1>Carta de antecedentes no penales en {ciudad}</h1>
+<p class="lead">{esGratis ? `Trámite gratuito ${esOnline ? 'y en línea' : ''} para quienes están en ${ciudad}, ${e.nombre}. Requisitos, pasos y enlace oficial.` : esOnline ? `Si estás en ${ciudad}, puedes tramitarla ${modLabel}. Aquí tienes el costo, requisitos y el paso a paso.` : `Trámite presencial para ${ciudad}, ${e.nombre}. Aquí tienes el costo, requisitos, dónde acudir y el paso a paso.`}</p>
+<div class="hero-cta">
+{esOnline ? (
+<a class="btn" href={`/estados/${e.slug}/tramitar-en-linea/`}><i class="fa-solid fa-globe"></i> {esGratis ? 'Cómo tramitar gratis en línea' : 'Cómo tramitar en línea'}</a>
+) : (e.sede && !e.sede.porVerificar && e.sede.direccion ? (
+<a class="btn" href={`/estados/${e.slug}/donde-tramitar/`}><i class="fa-solid fa-location-dot"></i> Dónde tramitar</a>
+) : (
+<a class="btn" href={e.portal} rel="nofollow noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ir al portal oficial</a>
+))}
+<a class="btn sec" href={'/estados/' + e.slug + '/'}><i class="fa-solid fa-map"></i> Guía de {e.nombre}</a>
+</div>
+</div></div>
+<main class="wrap">
+<div class="crumbs"><a href="/">Inicio</a> &rsaquo; <a href={'/estados/' + e.slug + '/'}>{e.nombre}</a> &rsaquo; {ciudad}</div>
+
+<div class="grid c3">
+<div class="card"><h3>Costo en {ciudad}</h3><p style="font-size:1.3rem;font-weight:800;color:var(--verde-osc)">{esGratis ? 'Gratuito' : e.costoEstimado}</p>{!esGratis && !costoConf && <span class="badge pres">Estimado</span>}{costoConf && <span class="badge online">Confirmado</span>}</div>
+<div class="card"><h3>Modalidad</h3><p style="font-size:1.1rem;font-weight:700">{e.modalidad === 'en línea' ? 'En línea' : e.modalidad === 'mixta' ? 'En línea / presencial' : 'Presencial'}</p>{esOnline ? <span class="badge online">Disponible en línea</span> : <span class="badge pres">Solo presencial</span>}</div>
+<div class="card"><h3>La expide</h3><p style="font-size:.98rem;font-weight:600">{e.emisor}</p></div>
+</div>
+
+<div class="notice verde"><i class="fa-solid fa-location-dot"></i> La constancia de {ciudad} es un trámite del estado de <strong>{e.nombre}</strong>. El costo y los requisitos son los mismos en todo el estado; aquí te lo explicamos enfocado en {ciudad}. <a href={'/estados/' + e.slug + '/'}>Ver ficha completa de {e.nombre}</a>.</div>
+
+{!esGratis && !costoConf && <div class="disclaimer"><i class="fa-solid fa-circle-info"></i> El costo mostrado es <strong>estimado</strong> para todo {e.nombre}, incluida {ciudad}. Confírmalo en el <a href={e.portal} rel="nofollow noopener">portal oficial</a> antes de pagar.</div>}
+{e.notaEspecial && <div class="notice"><strong>Importante en {e.nombre}:</strong> {e.notaEspecial}</div>}
+
+<h2>Requisitos en {ciudad}</h2>
+<p>{usoLocal} Los requisitos son los mismos que en todo {e.nombre}:</p>
+<div class="card"><ul style="margin:0;padding-left:20px">
+{data.requisitosComunes.map(r => (<li style="margin:.4rem 0">{r}</li>))}
+</ul></div>
+
+<Ad />
+
+<h2>Cómo tramitarla desde {ciudad} paso a paso</h2>
+<Pasos pasos={pasos} />
+
+<h2>Dónde tramitarla si estás en {ciudad}</h2>
+{e.sede && !e.sede.porVerificar ? (
+<>
+<div class="sede-card">
+<div class="sede-row"><i class="fa-solid fa-building-columns"></i><div><strong>{e.sede.nombre}</strong>{e.sede.direccion && <span>{e.sede.direccion}</span>}</div></div>
+{e.sede.horario && <div class="sede-row"><i class="fa-solid fa-clock"></i><div><strong>Horario</strong><span>{e.sede.horario}</span></div></div>}
+{e.sede.proceso && <div class="sede-row"><i class="fa-solid fa-list-check"></i><div><strong>Proceso</strong><span>{e.sede.proceso}</span></div></div>}
+</div>
+{esOnline ? (
+<p>Buena noticia si estás en {ciudad}: {e.nombre} permite el trámite {modLabel}, así que puedes iniciarlo por internet sin traslados.</p>
+) : (
+<div class="notice"><i class="fa-solid fa-circle-info"></i> {e.sede.sedeUnica ? `El trámite en ${e.nombre} se realiza en una sola sede. Si estás en ${ciudad} y no es donde está la oficina, deberás acudir a ella el día de tu cita — planifica el traslado.` : `Si estás en ${ciudad}, verifica en el portal oficial cuál es el módulo más cercano antes de acudir.`}</div>
+)}
+{e.sede.direccion && (
+<iframe title={'Mapa: ' + e.sede.nombre} width="100%" height="300" style="border:0;border-radius:10px;margin:.8rem 0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src={'https://www.google.com/maps?q=' + encodeURIComponent(e.sede.direccion + ', ' + e.nombre + ', México') + '&output=embed'}></iframe>
+)}
+{e.sede.direccion && <a class="btn-map" href={'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(e.sede.direccion + ', ' + e.nombre + ', México')} rel="nofollow noopener"><i class="fa-solid fa-diamond-turn-right"></i> Cómo llegar</a>}
+<p class="sede-fuente">Datos según {e.sede.fuente || 'fuentes oficiales'}. Confirma en el portal oficial antes de acudir.</p>
+</>
+) : (
+<div class="card"><p>{esOnline ? `${e.nombre} permite el trámite ${modLabel}, así que desde ${ciudad} puedes gestionarlo por internet.` : `Consulta en el portal oficial de ${e.emisor} la sede que atiende a ${ciudad} antes de acudir.`} El <a href={e.portal} rel="nofollow noopener">portal oficial</a> tiene las direcciones y horarios actualizados.</p></div>
+)}
+
+<Ad />
+
+<h2>Preguntas frecuentes sobre {ciudad}</h2>
+<Faq items={faqs} />
+
+<h2>Trámite en {e.nombre}</h2>
+<p>Recuerda que esta constancia se gestiona a nivel estatal. Para ver todos los detalles, otras ciudades del estado y el enlace oficial: <a href={'/estados/' + e.slug + '/'}>ficha completa de {e.nombre} &rarr;</a></p>
+{e.ciudades && e.ciudades.length > 1 && (
+<div class="estado-grid">
+{e.ciudades.filter(c => c !== ciudad).map(c => {
+  const cs = c.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  return (<a href={'/ciudad/' + cs + '/'}><strong>{c}</strong><span>{e.nombre}</span></a>);
+})}
+</div>
+)}
+</main>
+</Base>

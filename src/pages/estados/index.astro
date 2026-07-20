@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import Ad from '../../components/Ad.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import data from '../../data/estados.json';
+const estados = [...data.estados].sort((a,b)=>a.nombre.localeCompare(b.nombre));
+const schema = { "@context":"https://schema.org","@type":"CollectionPage","name":"Constancia de antecedentes no penales por estado","url":"https://antecedentesnopenalesmx.com/estados/" };
+---
+<Base title="Antecedentes No Penales por Estado: Costo y Trámite en los 32 Estados" description="Elige tu estado y consulta cómo tramitar la constancia de no antecedentes penales en México: costo, modalidad en línea o presencial, requisitos y enlace oficial." path="/estados/" schema={schema}>
+<div class="hero"><div class="wrap">
+<h1>Antecedentes no penales por estado</h1>
+<p class="lead">Cada entidad de México expide su propia constancia de no antecedentes penales, con distinto costo, modalidad y portal. Elige tu estado para ver la ficha completa.</p>
+</div></div>
+<main class="wrap">
+<Crumbs name="Estados" />
+<div class="notice verde">La constancia <strong>federal</strong> (FGR) es gratuita y 100% en línea. Las estatales cambian según la entidad: <a href="/gratis/">algunas son gratis</a>, otras cuestan entre $92 y $300 MXN. Consulta el <a href="/costos/">comparativo de costos</a>.</div>
+<Ad />
+<div class="estado-grid">
+{estados.map(e => (
+<a href={'/estados/' + e.slug + '/'}>
+<strong>{e.nombre}</strong>
+<span>{e.gratuito ? 'Gratis' : e.costoEstimado} · {e.modalidad === 'en línea' ? 'En línea' : e.modalidad === 'mixta' ? 'En línea/presencial' : 'Presencial'}</span>
+</a>
+))}
+</div>
+</main>
+</Base>

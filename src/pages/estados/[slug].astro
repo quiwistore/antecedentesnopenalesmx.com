@@ -1,0 +1,186 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Pasos from '../../components/Pasos.astro';
+import Ad from '../../components/Ad.astro';
+import data from '../../data/estados.json';
+export function getStaticPaths() {
+  return data.estados.map(e => ({ params: { slug: e.slug }, props: { e } }));
+}
+const { e } = Astro.props;
+const F = data.federal;
+const otros = data.estados.filter(x => x.slug !== e.slug);
+// MD5-like rotation determinista por slug para variacion semantica
+function h(str){let x=0;for(let i=0;i<str.length;i++){x=((x<<5)-x+str.charCodeAt(i))|0}return Math.abs(x)}
+const seed = h(e.slug);
+const rot = (arr) => arr[seed % arr.length];
+const esGratis = e.gratuito;
+const esOnline = e.enLinea;
+const modLabel = e.modalidad === 'en línea' ? 'en línea' : e.modalidad === 'mixta' ? 'en línea o presencial' : 'presencial';
+const ciudades = e.ciudades || [];
+const tieneCiudades = ciudades.length > 0;
+const cityMention = tieneCiudades ? ciudades.slice(0,3).join(', ') : e.capital;
+const cityListFull = tieneCiudades ? (ciudades.length === 1 ? ciudades[0] : ciudades.slice(0,-1).join(', ') + ' y ' + ciudades[ciudades.length-1]) : e.capital;
+const costoConf = e.costoConfirmado;
+
+const introVars = tieneCiudades ? [
+  `Si vives en ${e.nombre} —ya sea en ${cityMention} o en cualquier otro municipio— y necesitas tramitar tu constancia de antecedentes no penales, aquí tienes la información actualizada en ${data.asAt}: quién la expide, cuánto cuesta, si puedes hacerlo en línea y el paso a paso con el enlace oficial.`,
+  `Tramitar la carta de no antecedentes penales en ${e.nombre} es un trámite estatal que expide ${e.emisor} y aplica para residentes de ${cityListFull} y todo el estado. En esta ficha encontrarás el costo, los requisitos, la modalidad y los pasos, con el enlace al portal oficial.`,
+  `¿Necesitas tu constancia de no antecedentes penales en ${e.nombre}? Si estás en ${cityMention} o alrededores, te explicamos el costo actualizado en ${data.asAt}, si el trámite es ${modLabel}, qué documentos llevar y cómo iniciarlo directo en la Fiscalía del estado.`
+] : [
+  `Si vives en ${e.nombre} y necesitas tramitar tu constancia de antecedentes no penales, aquí tienes la información actualizada en ${data.asAt}: quién la expide, cuánto cuesta, si puedes hacerlo en línea y el paso a paso con el enlace oficial.`,
+  `Tramitar la carta de no antecedentes penales en ${e.nombre} es un trámite estatal que expide ${e.emisor}. En esta ficha encontrarás el costo, los requisitos, la modalidad y los pasos para obtenerla, con el enlace al portal oficial.`,
+  `¿Necesitas tu constancia de no antecedentes penales en ${e.nombre}? Te explicamos el costo actualizado en ${data.asAt}, si el trámite es ${modLabel}, qué documentos llevar y cómo iniciarlo directo en la Fiscalía del estado.`
+];
+
+const pasos = esOnline ? [
+  `Ingresa al portal oficial de ${e.emisor} y localiza el trámite de constancia de no antecedentes penales.`,
+  `Crea una cuenta o inicia sesión y captura tus datos personales (nombre, CURP, domicilio).`,
+  `Adjunta los documentos requeridos: identificación oficial vigente y CURP.`,
+  esGratis ? `Genera tu constancia sin costo y descárgala en PDF con su código de verificación.` : `Realiza el pago de derechos según la modalidad disponible (en línea o en ventanilla bancaria).`,
+  `Descarga tu constancia en PDF. Verifica que traiga el código QR o folio de validación oficial.`
+] : [
+  `Reúne los documentos: identificación oficial vigente y CURP${e.slug==='jalisco' ? ' impresa' : ''}.`,
+  e.slug==='jalisco' ? `Acude a un módulo del IJCF sin cita previa (horario general lunes a viernes 9:00 a 15:00 hrs).` : `Agenda cita en el portal de ${e.emisor} si el estado lo requiere, o acude directamente a las oficinas.`,
+  `Realiza el pago de derechos en la ventanilla o banco autorizado (conserva tu comprobante).`,
+  e.slug==='jalisco' ? `En el módulo se realiza la toma de fotografía y huella digital en el momento.` : `Presenta tu documentación y comprobante de pago en la oficina de la Fiscalía.`,
+  `Recibe tu constancia impresa el mismo día o en el plazo que indique la oficina.`
+];
+
+const faqs = [
+  { q: `¿Cuánto cuesta la carta de antecedentes no penales en ${e.nombre}?`, a: esGratis ? `En ${e.nombre} el trámite es <strong>gratuito</strong> en su modalidad en línea. Solo necesitas tus documentos y el acceso al portal oficial de ${e.emisor}.` : costoConf ? `En ${e.nombre} el costo es de <strong>${e.costoEstimado}</strong>, según la información oficial de ${e.emisor}. El monto puede ajustarse conforme a la Ley de Ingresos del estado; confírmalo antes de acudir.` : `En ${e.nombre} el costo estimado ronda los <strong>${e.costoEstimado}</strong>. Es un monto orientativo: el precio exacto lo fija la Ley de Ingresos del estado y debe confirmarse en el portal oficial de ${e.emisor} o en la ventanilla antes de pagar.` },
+  { q: `¿Se puede sacar en línea en ${e.nombre}?`, a: esOnline ? (e.modalidad === 'en línea' ? `Sí. En ${e.nombre} la constancia se tramita completamente <strong>en línea</strong> a través del portal de ${e.emisor}, sin necesidad de acudir presencialmente.` : `Parcialmente. ${e.nombre} ofrece una modalidad <strong>mixta</strong>: parte del trámite (registro o cita) se hace en línea y puede requerir una visita para pago o entrega. Consulta el portal oficial.`) : `No. En ${e.nombre} el trámite es <strong>presencial</strong> en las oficinas de ${e.emisor}. Si necesitas una versión digital, la <a href="/federal/">constancia federal</a> sí es 100% en línea, aunque cubre delitos distintos.` },
+  { q: `¿Qué documentos necesito en ${e.nombre}?`, a: `Los requisitos habituales son: identificación oficial vigente (INE, pasaporte o cédula profesional), CURP actualizada${e.modalidad !== 'en línea' ? ', y en algunos casos comprobante de domicilio reciente' : ''}. Ten también un correo electrónico a la mano. Verifica la lista exacta en el <a href="${e.portal}" rel="nofollow noopener">portal oficial</a>.` },
+  { q: `¿Quién expide la constancia en ${e.nombre}?`, a: `La expide <strong>${e.emisor}</strong>. Es un trámite del fuero común (estatal); si te piden la versión que cubre delitos federales, esa la tramita la FGR y es <a href="/federal/">gratuita en línea</a>.` },
+  { q: `¿La constancia de ${e.nombre} sirve en otros estados?`, a: `La constancia estatal certifica tu situación en ${e.nombre}. Para trámites en otra entidad o de alcance nacional, es posible que te pidan la constancia del estado correspondiente o la <a href="/federal/">federal</a>. Pregunta siempre a quien te la solicita qué cobertura necesita.` }
+];
+if (e.notaEspecial) {
+  faqs.splice(1, 0, { q: `¿Necesito cita previa en ${e.nombre}?`, a: e.notaEspecial });
+}
+
+const areaServed = tieneCiudades
+  ? [{"@type":"State","name":e.nombre}].concat(ciudades.map(c=>({"@type":"City","name":c})))
+  : {"@type":"State","name":e.nombre};
+const schemaService = { "@context":"https://schema.org","@type":"GovernmentService","name":`Constancia de antecedentes no penales en ${e.nombre}`,"serviceType":"Constancia de no antecedentes penales","provider":{"@type":"GovernmentOrganization","name":e.emisor},"areaServed":areaServed,"audience":{"@type":"Audience","audienceType":"Residentes de "+e.nombre} };
+const schemaFaq = { "@context":"https://schema.org","@type":"FAQPage","mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a.replace(/<[^>]+>/g,'')}})) };
+const schemaBread = { "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://antecedentesnopenalesmx.com/"},{"@type":"ListItem","position":2,"name":"Estados","item":"https://antecedentesnopenalesmx.com/estados/"},{"@type":"ListItem","position":3,"name":e.nombre}] };
+
+const title = `Carta de Antecedentes No Penales en ${e.nombre} 2026: Costo, Requisitos y Trámite`;
+const desc = tieneCiudades
+  ? `Constancia de no antecedentes penales en ${e.nombre} (${cityMention} y todo el estado): ${esGratis?'gratis':'costo '+e.costoEstimado}, modalidad ${modLabel}, requisitos, pasos y enlace oficial.`
+  : `Cómo tramitar tu constancia de no antecedentes penales en ${e.nombre}: ${esGratis?'gratis':'costo '+e.costoEstimado}, modalidad ${modLabel}, requisitos, pasos y enlace oficial a ${e.emisor}.`;
+---
+<Base title={title} description={desc} path={'/estados/' + e.slug + '/'} schema={[schemaService, schemaFaq, schemaBread]}>
+<div class="hero"><div class="wrap">
+<h1>Carta de antecedentes no penales en {e.nombre}</h1>
+<p class="lead">{esGratis ? `Trámite gratuito ${esOnline ? 'y en línea' : ''} en ${e.nombre}. Aquí tienes requisitos, pasos y el enlace oficial.` : esOnline ? `Puedes tramitarla ${modLabel} en ${e.nombre}. Aquí tienes el costo, los requisitos y el paso a paso.` : `Trámite presencial en ${e.nombre}. Aquí tienes el costo, los requisitos, dónde acudir y el paso a paso.`}</p>
+<div class="hero-cta">
+{esOnline ? (
+<a class="btn" href={`/estados/${e.slug}/tramitar-en-linea/`}><i class="fa-solid fa-globe"></i> {esGratis ? 'Cómo tramitar gratis en línea' : 'Cómo tramitar en línea'}</a>
+) : (e.sede && !e.sede.porVerificar && e.sede.direccion ? (
+<a class="btn" href={`/estados/${e.slug}/donde-tramitar/`}><i class="fa-solid fa-location-dot"></i> Ver dónde tramitar</a>
+) : (
+<a class="btn" href={e.portal} rel="nofollow noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ir al portal oficial</a>
+))}
+<a class="btn sec" href="#pasos"><i class="fa-solid fa-list-ol"></i> Ver paso a paso</a>
+</div>
+</div></div>
+<main class="wrap">
+<div class="crumbs"><a href="/">Inicio</a> &rsaquo; <a href="/estados/">Estados</a> &rsaquo; {e.nombre}</div>
+
+<!-- RESUMEN: lo que el usuario necesita de un vistazo -->
+<div class="resumen">
+<div class="resumen-item"><span class="resumen-lbl">Costo</span><span class="resumen-val">{esGratis ? 'Gratuito' : e.costoEstimado}</span>{!esGratis && !costoConf && <span class="badge pres">Estimado</span>}{costoConf && <span class="badge online">Confirmado</span>}{esGratis && <span class="badge gratis">Sin costo</span>}</div>
+<div class="resumen-item"><span class="resumen-lbl">Modalidad</span><span class="resumen-val">{e.modalidad === 'en línea' ? 'En línea' : e.modalidad === 'mixta' ? 'Mixta' : 'Presencial'}</span>{esOnline ? <span class="badge online">En línea</span> : <span class="badge pres">Presencial</span>}</div>
+<div class="resumen-item"><span class="resumen-lbl">Tiempo</span><span class="resumen-val">{esOnline ? 'Mismo día' : '1-3 días'}</span></div>
+<div class="resumen-item full"><span class="resumen-lbl">La expide</span><span class="resumen-val-sm">{e.emisor}</span></div>
+{e.sede && !e.sede.porVerificar && e.sede.direccion && <div class="resumen-item full"><span class="resumen-lbl">Dónde</span><span class="resumen-val-sm">{e.sede.direccion}</span></div>}
+</div>
+<div class="resumen-cta">
+{esOnline && <a class="btn" href={`/estados/${e.slug}/tramitar-en-linea/`}><i class="fa-solid fa-globe"></i> Tramitar en línea</a>}
+{!esOnline && e.sede && !e.sede.porVerificar && e.sede.direccion && <a class="btn" href={`/estados/${e.slug}/donde-tramitar/`}><i class="fa-solid fa-location-dot"></i> Dónde tramitar</a>}
+{!esOnline && (!e.sede || e.sede.porVerificar || !e.sede.direccion) && <a class="btn" href={e.portal} rel="nofollow noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Portal oficial</a>}
+{e.sede && !e.sede.porVerificar && e.sede.direccion && <a class="btn sec2" href="#donde"><i class="fa-solid fa-map-location-dot"></i> Ver mapa aquí</a>}
+<a class="btn sec2" href="#pasos"><i class="fa-solid fa-list-ol"></i> Ver paso a paso</a>
+</div>
+
+{!esGratis && !costoConf && <div class="disclaimer"><i class="fa-solid fa-circle-info"></i> El costo mostrado para {e.nombre} es <strong>estimado</strong>. El monto oficial lo fija la Ley de Ingresos del estado y puede variar; confírmalo en el <a href={e.portal} rel="nofollow noopener">portal oficial</a> antes de pagar.</div>}
+{e.notaEspecial && <div class="notice"><strong>Importante en {e.nombre}:</strong> {e.notaEspecial}</div>}
+
+<p class="intro-p">{rot(introVars)}</p>
+
+<Ad />
+
+<!-- CRONOLOGICO: paso 1 requisitos -->
+<h2><span class="paso-n">1</span> Reúne los requisitos</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+{data.requisitosComunes.map(r => (<li style="margin:.4rem 0">{r}</li>))}
+</ul></div>
+<p>Estos son los requisitos habituales; {e.emisor} puede pedir documentación adicional (por ejemplo para extranjeros o menores). <a href={`/estados/${e.slug}/requisitos/`}>Ver la lista detallada de requisitos en {e.nombre} &rarr;</a></p>
+
+<!-- paso 2 costo/pago -->
+<h2><span class="paso-n">2</span> Paga los derechos</h2>
+<p>{esGratis ? `En ${e.nombre} el trámite es gratuito en su modalidad en línea, a diferencia de la mayoría de los estados que cobran derechos.` : costoConf ? `El costo confirmado en ${e.nombre} es de ${e.costoEstimado}, según ${e.emisor}.` : `El costo en ${e.nombre} ronda los ${e.costoEstimado} (estimado, sujeto a la Ley de Ingresos vigente).`} {!esGratis && `El pago suele hacerse por línea de captura en banco, tienda de conveniencia o cajas de la dependencia.`} <a href={`/estados/${e.slug}/costo/`}>Ver costo y formas de pago en detalle &rarr;</a></p>
+
+<!-- paso 3 donde ir (con mapa) -->
+{e.sede && !e.sede.porVerificar ? (
+<>
+<h2 id="donde"><span class="paso-n">3</span> {esOnline ? 'Dónde recoger o acudir' : 'Acude a la oficina'}</h2>
+<div class="sede-card">
+<div class="sede-row"><i class="fa-solid fa-building-columns"></i><div><strong>{e.sede.nombre}</strong>{e.sede.direccion && <span>{e.sede.direccion}</span>}</div></div>
+{e.sede.horario && <div class="sede-row"><i class="fa-solid fa-clock"></i><div><strong>Horario</strong><span>{e.sede.horario}</span></div></div>}
+{e.sede.proceso && <div class="sede-row"><i class="fa-solid fa-list-check"></i><div><strong>Proceso</strong><span>{e.sede.proceso}</span></div></div>}
+{e.sede.vigencia && <div class="sede-row"><i class="fa-solid fa-calendar-check"></i><div><strong>Vigencia</strong><span>{e.sede.vigencia}</span></div></div>}
+</div>
+{e.sede.direccion && (
+<div id="mapa-sede">
+<iframe title={'Mapa: ' + e.sede.nombre} width="100%" height="300" style="border:0;border-radius:10px;margin:.8rem 0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src={'https://www.google.com/maps?q=' + encodeURIComponent(e.sede.direccion + ', ' + e.nombre + ', México') + '&output=embed'}></iframe>
+</div>
+)}
+{e.sede.direccion && <a class="btn-map" href={'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(e.sede.direccion + ', ' + e.nombre + ', México')} rel="nofollow noopener"><i class="fa-solid fa-diamond-turn-right"></i> Cómo llegar</a>}
+<p class="sede-fuente">Datos de la sede según {e.sede.fuente || 'fuentes oficiales'}. Verifica horario y disponibilidad en el portal oficial antes de acudir.</p>
+</>
+) : (
+<>
+<h2 id="donde"><span class="paso-n">3</span> Dónde tramitarla</h2>
+<div class="card"><p>{esOnline ? `${e.nombre} permite el trámite ${modLabel}, así que puedes gestionarlo por internet.` : `Consulta en el portal oficial de ${e.emisor} la sede que te corresponde.`} Revisa las direcciones y horarios actualizados en el <a href={e.portal} rel="nofollow noopener">portal oficial</a>.</p></div>
+</>
+)}
+
+<!-- paso 4 pasos completos -->
+<h2 id="pasos"><span class="paso-n">4</span> Paso a paso completo</h2>
+<Pasos pasos={pasos} />
+
+<Ad />
+
+<!-- Fichas de ciudad (interlinking) -->
+{tieneCiudades && (
+<>
+<h2>Tu ciudad en {e.nombre}</h2>
+<p>La constancia es válida en todo {e.nombre}, incluyendo <strong>{cityListFull}</strong>. Consulta la guía enfocada en tu ciudad:</p>
+<div class="estado-grid">
+{ciudades.map(c => {
+  const cs = c.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  return (<a href={'/ciudad/' + cs + '/'}><strong>{c}</strong><span>Antecedentes no penales en {c}</span></a>);
+})}
+</div>
+</>
+)}
+
+<!-- Estatal vs federal -->
+<h2>¿Estatal o federal? Cuál te conviene</h2>
+<div class="card"><p>La constancia de <strong>{e.nombre}</strong> cubre delitos del <strong>fuero común</strong> y es la que suelen pedir para empleos privados y trámites locales. La <a href="/federal/">constancia federal</a> (FGR) cubre delitos federales y es gratuita en línea. Algunos empleos o trámites migratorios piden ambas: pregunta siempre cuál necesitas antes de tramitar.</p></div>
+
+<h2>Preguntas frecuentes sobre {e.nombre}</h2>
+<Faq items={faqs} />
+
+<h2>Trámite en otros estados</h2>
+<p>Si necesitas la constancia en otra entidad, elige el estado:</p>
+<div class="estado-grid">
+{otros.slice(0, 8).map(x => (
+<a href={'/estados/' + x.slug + '/'}><strong>{x.nombre}</strong><span>{x.gratuito ? 'Gratis' : x.costoEstimado}</span></a>
+))}
+</div>
+<p><a href="/estados/">Ver los 32 estados &rarr;</a></p>
+</main>
+</Base>

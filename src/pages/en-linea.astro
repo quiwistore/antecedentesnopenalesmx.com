@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import Ad from '../components/Ad.astro';
+import Crumbs from '../components/Crumbs.astro';
+import data from '../data/estados.json';
+const online = data.estados.filter(e => e.enLinea);
+const presencial = data.estados.filter(e => !e.enLinea);
+const faqs = [
+  { q: '¿En qué estados se puede sacar en línea?', a: 'La constancia federal es 100% en línea en todo el país. A nivel estatal, ' + online.length + ' entidades ofrecen modalidad en línea o mixta, entre ellas CDMX, Estado de México, Puebla, Guanajuato, Chihuahua y Querétaro. El resto es presencial.' },
+  { q: '¿La versión en línea es válida igual que la presencial?', a: 'Sí. La constancia digital que emiten los portales oficiales tiene la misma validez legal, e incluye un folio o código QR para verificar su autenticidad. Confirma que quien la solicita acepte la versión digital.' },
+  { q: '¿Qué necesito para el trámite en línea?', a: 'Generalmente CURP, identificación oficial y correo electrónico. Algunos estados requieren crear una cuenta en su portal. Revisa la ficha de tu estado para el detalle.' }
+];
+const schema = { "@context":"https://schema.org","@type":"FAQPage","mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a}})) };
+---
+<Base title="Antecedentes No Penales En Línea 2026: Estados y Cómo Tramitarla por Internet" description="Qué estados permiten sacar la constancia de no antecedentes penales en línea, cómo hacerlo por internet y cuáles siguen siendo presenciales. Guía 2026." path="/en-linea/" schema={schema}>
+<div class="hero"><div class="wrap">
+<h1>Antecedentes no penales en línea</h1>
+<p class="lead">No en todos los estados se puede tramitar por internet. Aquí te decimos cuáles ofrecen la constancia en línea, cuáles son mixtos y cuáles siguen siendo presenciales.</p>
+</div></div>
+<main class="wrap">
+<Crumbs name="En línea" />
+<div class="notice verde">La <a href="/federal/">constancia federal</a> es 100% en línea y gratuita. Si te sirve esa (cubre delitos federales), es la vía más rápida.</div>
+<h2>Estados con trámite en línea o mixto</h2>
+<div class="estado-grid">
+{online.map(e => (<a href={'/estados/' + e.slug + '/'}><strong>{e.nombre}</strong><span>{e.modalidad === 'en línea' ? 'En línea' : 'Mixto (en línea/presencial)'} · {e.gratuito ? 'Gratis' : e.costoEstimado}</span></a>))}
+</div>
+<Ad />
+<h2>Estados con trámite presencial</h2>
+<p>En estas entidades la constancia se tramita acudiendo a las oficinas de la Fiscalía:</p>
+<div class="estado-grid">
+{presencial.map(e => (<a href={'/estados/' + e.slug + '/'}><strong>{e.nombre}</strong><span>Presencial · {e.costoEstimado}</span></a>))}
+</div>
+<Ad />
+<h2>Preguntas frecuentes</h2>
+<Faq items={faqs} />
+</main>
+</Base>
