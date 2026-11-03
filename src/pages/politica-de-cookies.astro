@@ -1,0 +1,14 @@
+---
+// generado por herramientas-investigacion/legales
+import L from '../data/legal.json';
+import LS from '../data/contacto.json';
+import Base from '../layouts/Base.astro';
+import Crumbs from '../components/Crumbs.astro';
+---
+<Base title="Política de cookies | Antecedentes No Penales MX" description="Qué cookies y almacenamiento usa Antecedentes No Penales MX, por categoría: ninguna propia, cookies de Google cuando hay anuncios y cómo desactivarlas." path="/politica-de-cookies/">
+<div class="hero"><div class="wrap"><h1>Política de cookies</h1></div></div>
+<main class="wrap">
+<Crumbs name="Política de cookies" />
+<Fragment set:html={L['cookies'].html.replaceAll('{{EMAIL}}', LS.email)} />
+</main>
+</Base>
